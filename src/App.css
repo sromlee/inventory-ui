@@ -1,0 +1,48 @@
+.p{
+  font-size: 14px;
+}
+.body { padding-top: 40px; }
+.section{
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.main-heading{
+  color: rgb(56, 51, 51);
+  font: 100px;
+}
+.underline{
+  height: 04px;
+  width: 10rem;
+  background-color: #0f2f60;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.bg-c-light{
+  background-color: #f2f2f2;
+}
+.footer {
+  position:absolute;
+  left:0;
+  bottom:0;
+  right:0;
+}
+.footer a{
+  color: #fff;
+  text-decoration: none !important;
+}
+.footer a:hover{
+  color: grey;
+  text-decoration: none !important;
+}
+
+.form{
+  background-color: #fff;
+  box-shadow: 5px 5px 5px;
+}
+
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 800px;
+}
