@@ -27,26 +27,41 @@ const App = () => {
   return (
     <div>
       <Navigation />
+      <div
+        class="winter-neva-gradient color-block"
+        style={{ background: 'linear-gradient(to right, rgba(106,133,182,0.5), rgba(186,200,224,0.5))' 
+        }}
+      
+      >
+        
+        <Routes>
+          {/* Public Route */}
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
 
-      <Routes>
-        {/* Public Route */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path = "/unauthorized" element = {<Unauthorized />} />
+          {/* Protected Route */}
+          <Route element={<Protected />}>
+            <Route path="/inventory" element={<Inventory />} />
 
-        {/* Protected Route */}
-        <Route element={<Protected />}>
-          <Route path="/inventory" element={<Inventory />} />
-
-          <Route element={<ProtectedAdmin  />}>
-            <Route path="/userSetting" element={<UserSetting />} />
+            <Route element={<ProtectedAdmin />}>
+              <Route path="/userSetting" element={<UserSetting />} />
+            </Route>
           </Route>
-        </Route>
 
-        {/* 404 NOT FOUND */}
-        <Route path="/missing" element={<Missing />} />
-      </Routes>
+          {/* 404 NOT FOUND */}
+          <Route path="/missing" element={<Missing />} />
+        </Routes>
+
+        <footer className="mt-auto py-5 bg-dark">
+          <div className="container">
+            <p className="m-0 text-center text-white">
+              Copyright &copy; www.something.com 2022
+            </p>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 };

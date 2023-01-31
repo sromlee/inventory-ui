@@ -1,40 +1,55 @@
 import React from "react";
-import jwtDecode from "jwt-decode";
 import AuthService from "../authService";
-import logo from "../images/logo.png"
+import { Col, Row, Container } from "react-bootstrap";
 
 function Home() {
   const token = AuthService.getCurrentUser();
 
   return (
-    <div>
-      <section className="section">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12 text-center">
-              <div
-                id="carouselExampleSlidesOnly"
-                className="carousel slide"
-                data-bs-ride="carousel"
-              >
-                <div className="carousel-inner">
-                  <div className="carousel-item active">
-                    <img src={logo} className="d-block w-100" alt="..." />
-                  </div>
-                </div>
-              </div>
-              <hr/>
-              <h3 className="main-heading"> Company Name </h3>
-              <div className="underline mx-auto"></div>
+    <div className="d-flex flex-column min-vh-100">
+      <header className=" bg-dark py-5">
+        <div className="container px-lg-5">
+          <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div className="m-4 m-lg-5">
+              <h1 className="display-5 fw-bold">ยินดีต้อนรับ !</h1>
               {token ? (
-                <p>Welcome ! {jwtDecode(token.access_token).User}</p>
+                <p className="fs-4"></p>
               ) : (
-                <p> Hi ,Please login</p>
+                <div>
+                  <hr />
+                  <a className="btn btn-primary btn-md" href="/login">
+                    {" "}
+                    เข้าสู่ระบบ{" "}
+                  </a>
+                </div>
               )}
             </div>
           </div>
         </div>
-      </section>
+      </header>
+      <hr />
+      <Container>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card text-center">
+              <div class="card-body">
+                <a href="/inventory" class="btn btn-outline-dark">
+                  ตรวจสอบสินค้า
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card text-center">
+              <div class="card-body">
+                <a href="/usersetting" class="btn btn-outline-dark">
+                  จัดการผู้ใช้
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Container>
     </div>
   );
 }

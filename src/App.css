@@ -1,7 +1,8 @@
 .p{
   font-size: 14px;
 }
-.body { padding-top: 40px; }
+.body { padding-top: 40px; 
+}
 .section{
   padding-top: 40px;
   padding-bottom: 40px;
@@ -45,4 +46,12 @@ div.content {
   margin-left: 200px;
   padding: 1px 16px;
   height: 800px;
+}
+.column {
+  float: left;
+  width: 50%;
+}
+.card {
+  background-color: #f4eeee37!important;
+  margin-bottom: 10px;
 }

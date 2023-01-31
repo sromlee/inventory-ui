@@ -68,8 +68,8 @@ const Login = () => {
   };
 
   return (
-    <section className="section">
-      <div className="container">
+    <section className="section d-flex flex-column min-vh-100">
+      <div className="container card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
         <div className="text-center">
           <h3> เข้าสู่ระบบ </h3>
         </div>

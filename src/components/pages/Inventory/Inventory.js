@@ -4,7 +4,7 @@ import BasicExample from "./InventorySearchForm";
 
 function Inventory() {
   return (
-    <div>
+    <div className="d-flex flex-column min-vh-100">
       <div className="card">
         <div className="card mt-4">
           <div className="card-body">

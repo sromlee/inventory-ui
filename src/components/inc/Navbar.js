@@ -9,7 +9,7 @@ function Navigation() {
   return (
     <>
       <div className="navbar-expand-lg bg-light shadow">
-        <div className="row">
+        <div className="row" >
           <div className="col-md-12">
             <Navbar collapseOnSelect expand="sm" bg="dark" variant="dark">
               <Container>
@@ -23,6 +23,7 @@ function Navigation() {
 
                     {user ? (
                       <Nav.Link
+                        href="/"
                         onClick={(e) => {
                           e.preventDefault();
                           AuthService.logout(user);
