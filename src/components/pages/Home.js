@@ -1,6 +1,7 @@
 import React from "react";
 import jwtDecode from "jwt-decode";
 import AuthService from "../authService";
+import logo from "../images/logo.png"
 
 function Home() {
   const token = AuthService.getCurrentUser();
@@ -11,6 +12,18 @@ function Home() {
         <div className="container">
           <div className="row">
             <div className="col-md-12 text-center">
+              <div
+                id="carouselExampleSlidesOnly"
+                className="carousel slide"
+                data-bs-ride="carousel"
+              >
+                <div className="carousel-inner">
+                  <div className="carousel-item active">
+                    <img src={logo} className="d-block w-100" alt="..." />
+                  </div>
+                </div>
+              </div>
+              <hr/>
               <h3 className="main-heading"> Company Name </h3>
               <div className="underline mx-auto"></div>
               {token ? (
@@ -22,23 +35,6 @@ function Home() {
           </div>
         </div>
       </section>
-
-      {/* Main header
-      <section className="section bg-c-light border-top">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12 mb-4 text-center">
-              <h3 className="main-heading">ลงชื่อเข้าสู่ระบบ</h3>
-              <div className="underline mx-auto"></div>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                <Login />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
     </div>
   );
 }

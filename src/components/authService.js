@@ -1,49 +1,40 @@
 import axios from "../api/axios";
-const API_LOGOUT_URL = "/logout";
+import jwt from "jwt-decode";
+import jwtDecode from "jwt-decode";
+
+const API_LOGOUT_URL = "/api/v1/logout";
 
 const logout = ({ access_token }) => {
   // const { user } = useAuth();
-  let token = "Bearer "+access_token
-  const config = {
-    headers:{
-      "Content-Type": "application/json",
-      "Authorization": token,
-      
-    }
+  let token = "Bearer " + access_token;
+  const headers = {
+    Authorization: token,
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": true,
   };
 
-  try {
-    console.log("access_token in auth");
-    console.log(token);
-    const response = axios.get(API_LOGOUT_URL, config, {withCredentials: true}
-    );
-    console.log(response)
-
-  } catch (err) {
-    if (!err?.response) {
-      console.log("No server response");
-    } else if (err.response.status === 400) {
-      console.log("Missing username or password");
-    } else if (err.response.status === 401) {
-      console.log("Incorrect Username and Password");
-    } else {
-      console.log("Login Failed");
-    }
-  }
+  axios
+    .get(API_LOGOUT_URL, { headers, withCredentials: true })
+    .then((response) => console.log(response));
 
   localStorage.removeItem("user");
 };
-// return axios.get(API_URL + "signout").then((response) => {
-//   return response.data;
-// });
 
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+
+const getCurrentRole = (token)=>{
+  const decode_user = jwt(token)
+  return decode_user.Role
+}
+
 const AuthService = {
   logout,
   getCurrentUser,
+  getCurrentRole,
 };
 
 export default AuthService;

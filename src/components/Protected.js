@@ -2,6 +2,7 @@ import React from "react";
 import { Navigate ,Outlet} from "react-router-dom";
 import AuthService from "./authService";
 
+
 const Protected = ()  => {
   
   const user = AuthService.getCurrentUser()

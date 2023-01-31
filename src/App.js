@@ -9,31 +9,39 @@ import Missing from "./components/pages/Missing";
 import React from "react";
 import Protected from "./components/Protected";
 import { useAuth } from "./components/context/AuthProvider";
+import Register from "./components/pages/Register";
+import ProtectedAdmin from "./components/ProtectedAdmin";
+import Unauthorized from "./components/pages/Unauthorized";
 
 const App = () => {
-
   const { user } = useAuth();
-  let logged
-  
-  if(user) {
-  console.log("User in APP")
-  
-  logged =  user.access_token
-  console.log(logged)
+  let logged;
+
+  if (user) {
+    console.log("User in APP");
+
+    logged = user.access_token;
+    console.log(logged);
   }
-  
+
   return (
     <div>
       <Navigation />
+
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path = "/unauthorized" element = {<Unauthorized />} />
 
         {/* Protected Route */}
-        <Route element={<Protected users={logged} />} >
-          <Route path="/userSetting" element={<UserSetting />} />
+        <Route element={<Protected />}>
           <Route path="/inventory" element={<Inventory />} />
+
+          <Route element={<ProtectedAdmin  />}>
+            <Route path="/userSetting" element={<UserSetting />} />
+          </Route>
         </Route>
 
         {/* 404 NOT FOUND */}
