@@ -6,14 +6,14 @@ function Home() {
   const token = AuthService.getCurrentUser();
 
   return (
-    <div classNameName="d-flex flex-column min-vh-100">
-      <header classNameName=" bg-dark py-5">
-        <div classNameName="container px-lg-5">
-          <div classNameName="p-4 p-lg-5 bg-light rounded-3 text-center">
-            <div classNameName="m-4 m-lg-5">
-              <h1 classNameName="display-5 fw-bold">ยินดีต้อนรับ !</h1>
+    <div className="d-flex flex-column min-vh-100">
+      <header className=" bg-dark py-5">
+        <div className="container px-lg-5">
+          <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
+            <div className="m-4 m-lg-5">
+              <h1 className="display-5 fw-bold">ยินดีต้อนรับ !</h1>
               {token ? (
-                <p classNameName="fs-4"></p>
+                <p className="fs-4"></p>
               ) : (
                 <div>
                   <hr />

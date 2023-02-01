@@ -17,8 +17,7 @@ function InventorySearchForm() {
     "Access-Control-Allow-Credentials": true,
   };
   const [productList, setproductList] = useState([]);
-  const placeholder = "Search films...";
-  const inputPosition = "center";
+  
   // Get Product list
   useEffect(() => {
     axios
