@@ -1,6 +1,6 @@
 import React from "react";
 import ResponsiveExample from "./InventoryTable";
-import BasicExample from "./InventorySearchForm";
+import InventorySearchForm from "./InventorySearchForm";
 
 function Inventory() {
   return (
@@ -10,7 +10,7 @@ function Inventory() {
           <div className="card-body">
             <h2> ตรวจสอบสินค้า </h2>
             <hr/>
-            <BasicExample/>
+            <InventorySearchForm/>
             <hr/>
             <ResponsiveExample/>
             <hr/>

@@ -55,3 +55,6 @@ div.content {
   background-color: #f4eeee37!important;
   margin-bottom: 10px;
 }
+.active {
+  background: lightgray;
+}

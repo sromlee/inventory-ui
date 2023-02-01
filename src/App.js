@@ -28,8 +28,8 @@ const App = () => {
     <div>
       <Navigation />
       <div
-        class="winter-neva-gradient color-block"
-        style={{ background: 'linear-gradient(to right, rgba(106,133,182,0.5), rgba(186,200,224,0.5))' 
+        name="winter-neva-gradient color-block"
+        style={{ background: 'linear-gradient(to top, rgba(255,241,235,1), rgba(172,224,249,1))' 
         }}
       
       >
