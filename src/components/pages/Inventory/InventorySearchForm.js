@@ -9,7 +9,10 @@ import AutoComplete from "./AutoComplete";
 
 function InventorySearchForm() {
   const token_header = "Bearer " + AuthService.getCurrentUser().access_token;
-  const API_LOGOUT_URL = "api/search/pre-search/product_Id";
+  const PRODUCTID_LIST_URL = "api/search/pre-search/product_Id";
+  const PRODUCTNAME_LIST_URL = "api/search/pre-search/product_name";
+  const BARCODE_LIST_URL = "api/search/pre-search/barcode";
+
   const headers = {
     Authorization: token_header,
     "Content-Type": "application/json",
@@ -17,21 +20,47 @@ function InventorySearchForm() {
     "Access-Control-Allow-Credentials": true,
   };
   const [productList, setproductList] = useState([]);
+  const [productNameList, setproductNameList] = useState([]);
+  const [productBarcodeList, setproductBarcodeList] = useState([]);
   
-  // Get Product list
+  // Get Product ID list
   useEffect(() => {
     axios
-      .get(API_LOGOUT_URL, {
+      .get(PRODUCTID_LIST_URL, {
         headers,
         withCredentials: true,
       })
       .then((res) => setproductList(res.data))
       .catch((err) =>
-        console.log("(InventorySearchForm : Get product list :)" + err)
+        console.log("(InventorySearchForm : Get product id list :)" + err)
       );
   }, []);
 
-  console.log(productList.fetch_items);
+  // Get Product Name list
+  useEffect(() => {
+    axios
+      .get(PRODUCTNAME_LIST_URL, {
+        headers,
+        withCredentials: true,
+      })
+      .then((res) => setproductNameList(res.data))
+      .catch((err) =>
+        console.log("(InventorySearchForm : Get product name list :)" + err)
+      );
+  }, []);
+
+   // Get Barcode list
+   useEffect(() => {
+    axios
+      .get(BARCODE_LIST_URL, {
+        headers,
+        withCredentials: true,
+      })
+      .then((res) => setproductBarcodeList(res.data))
+      .catch((err) =>
+        console.log("(InventorySearchForm : Get barcode list :)" + err)
+      );
+  }, []);
 
   return (
     <div className="card">
@@ -45,26 +74,18 @@ function InventorySearchForm() {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group className="mb-3" controlId="barcode">
-                <Form.Label>บาร์โค๊ด</Form.Label>
-                <Form.Control
-                  name="barcode"
-                  type="int"
-                  placeholder="บาร์โค๊ด"
-                />
+            <Form.Group className="mb-3" controlId="productId">
+                <Form.Label>บาร์โค้ด</Form.Label>
+                <AutoComplete data={productBarcodeList.fetch_items} />
               </Form.Group>
             </Col>
           </Row>
 
           <Row>
             <Col>
-              <Form.Group className="mb-3" controlId="productName">
+            <Form.Group className="mb-3" controlId="productId">
                 <Form.Label>ชื่อสินค้า</Form.Label>
-                <Form.Control
-                  name="productName"
-                  type="text"
-                  placeholder="ชื่อสินค้า"
-                />
+                <AutoComplete data={productNameList.fetch_items} />
               </Form.Group>
             </Col>
             <Col>
