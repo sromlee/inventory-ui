@@ -31,10 +31,28 @@ const getCurrentRole = (token)=>{
   return decode_user.Role
 }
 
+const setToken = (token) => {
+  localStorage.setItem(localStorage.getItem("user").access_token, token)
+}
+
+
+const getLocalRefreshToken = () =>{
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user?.refreshToken;
+}
+
+const updateLocalAccessToken = (token) =>  {
+  let user = JSON.parse(localStorage.getItem("user"));
+  user.accessToken = token;
+  localStorage.setItem("user", JSON.stringify(user));
+}
+
 const AuthService = {
   logout,
   getCurrentUser,
   getCurrentRole,
+  updateLocalAccessToken,
+  getLocalRefreshToken,
 };
 
 export default AuthService;

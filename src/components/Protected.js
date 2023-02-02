@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate ,Outlet} from "react-router-dom";
-import AuthService from "./authService";
+import AuthService from "./AuthService";
 
 
 const Protected = ()  => {
@@ -11,7 +11,7 @@ const Protected = ()  => {
 
 
   if (!user?.access_token ) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/unauthorized" replace />;
   }
   return <Outlet />;;
 };

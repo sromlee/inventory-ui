@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate ,Outlet} from "react-router-dom";
-import AuthService from "./authService";
-
+import AuthService from "./AuthService";
+import UnauthorizedModal from "./UnauthorizeModal";
 
 const ProtectedAdmin = ()  => {
   

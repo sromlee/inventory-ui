@@ -12,6 +12,7 @@ import { useAuth } from "./components/context/AuthProvider";
 import Register from "./components/pages/Register";
 import ProtectedAdmin from "./components/ProtectedAdmin";
 import Unauthorized from "./components/pages/Unauthorized";
+import axios from "axios";
 
 const App = () => {
   const { user } = useAuth();
@@ -29,20 +30,21 @@ const App = () => {
       <Navigation />
       <div
         name="winter-neva-gradient color-block"
-        style={{ background: 'linear-gradient(to top, rgba(255,241,235,1), rgba(172,224,249,1))' 
+        style={{ background: 'linear-gradient(to bottom, rgba(193,226,223,0.5), rgba(255,255,255,0.5))' 
         }}
       
       >
         
         <Routes>
           {/* Public Route */}
-          <Route path="/" element={<Home />} />
+         
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           {/* Protected Route */}
           <Route element={<Protected />}>
+            <Route path="/" element={<Home />} />
             <Route path="/inventory" element={<Inventory />} />
 
             <Route element={<ProtectedAdmin />}>

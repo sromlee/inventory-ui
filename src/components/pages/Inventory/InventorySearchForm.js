@@ -2,19 +2,16 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import AuthService from "../../authService";
 import axios from "../../../api/axios";
 import { useState, useEffect } from "react";
 import AutoComplete from "./AutoComplete";
 
 function InventorySearchForm() {
-  const token_header = "Bearer " + AuthService.getCurrentUser().access_token;
   const PRODUCTID_LIST_URL = "api/search/pre-search/product_Id";
   const PRODUCTNAME_LIST_URL = "api/search/pre-search/product_name";
   const BARCODE_LIST_URL = "api/search/pre-search/barcode";
 
   const headers = {
-    Authorization: token_header,
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Credentials": true,

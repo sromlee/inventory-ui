@@ -1,5 +1,5 @@
 import React from "react";
-import AuthService from "../authService";
+import AuthService from "../AuthService";
 import { Col, Row, Container } from "react-bootstrap";
 
 function Home() {
@@ -7,7 +7,7 @@ function Home() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <header className=" bg-dark py-5">
+      <header className=" bg-secondary py-5">
         <div className="container px-lg-5">
           <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
             <div className="m-4 m-lg-5">
@@ -17,9 +17,7 @@ function Home() {
               ) : (
                 <div>
                   <hr />
-                  <a className="btn btn-primary btn-md" href="/login">
-                    {" "}
-                    เข้าสู่ระบบ{" "}
+                  <a> กรุณาเข้าสู่ระบบเพื่อใช้งาน
                   </a>
                 </div>
               )}

@@ -1,10 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import jwt from "jwt-decode";
 import axios from "../../api/axios";
 import { useAuth } from "../context/AuthProvider";
-
 
 const LOGIN_URL = "/api/v1/login";
 
@@ -21,6 +19,7 @@ const Login = () => {
   const [password, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
 
+  
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -44,18 +43,18 @@ const Login = () => {
         },
         withCredentials: true,
       });
-      
+
       setAuth(true);
-      
+
       if (response.data.access_token) {
-        console.log("Local storeage " +response.data.access_token)
+        console.log("Local storeage " + response.data.access_token);
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 
       navigate(from, { replace: true });
     } catch (err) {
       if (!err?.response) {
-        console("No server response");
+        console.log("No server response"+err);
       } else if (err.response.status === 400) {
         setErrMsg("Missing username or password");
       } else if (err.response.status === 401) {
@@ -69,58 +68,62 @@ const Login = () => {
 
   return (
     <section className="section d-flex flex-column min-vh-100">
-      <div className="container card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-        <div className="text-center">
-          <h3> เข้าสู่ระบบ </h3>
-        </div>
-        <div className="color-overley d-flex justify-content-center align-item-center">
-          <Form className="rounded p-4 p-sm-3" onSubmit={submitHandler}>
-            <Form.Group className="mb-3" controlId="formBasicUsername">
-              <Form.Label> Username </Form.Label>
-              <Form.Control
-                name="username"
-                type="username"
-                ref={userRef}
-                placeholder="Enter Username"
-                onChange={(e) => setUser(e.target.value)}
-                value={username}
-                autoComplete="off"
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label> Password</Form.Label>
-              <Form.Control
-                name="password"
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPwd(e.target.value)}
-                value={password}
-                autoComplete="off"
-                required
-              />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Sign In
-            </Button>
-            <div>
-              <br></br>
+      <div className="card text-center">
+        <div className="card-body">
+          <div className="container card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+            <div className="text-center">
+              <h3> เข้าสู่ระบบ </h3>
             </div>
-            <div
-              ref={errRef}
-              className={errMsg ? "alert alert-danger p-1" : "offscreen"}
-              role="alert"
-              aria-live="assertive"
-            >
-              {errMsg}
+            <div className="color-overley d-flex justify-content-center align-item-center">
+              <Form className="rounded p-4 p-sm-3" onSubmit={submitHandler}>
+                <Form.Group className="mb-3" controlId="formBasicUsername">
+                  <Form.Label> Username </Form.Label>
+                  <Form.Control
+                    name="username"
+                    type="username"
+                    ref={userRef}
+                    placeholder="Enter Username"
+                    onChange={(e) => setUser(e.target.value)}
+                    value={username}
+                    autoComplete="off"
+                    required
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  <Form.Label> Password</Form.Label>
+                  <Form.Control
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPwd(e.target.value)}
+                    value={password}
+                    autoComplete="off"
+                    required
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit">
+                  Sign In
+                </Button>
+                <div>
+                  <br></br>
+                </div>
+                <div
+                  ref={errRef}
+                  className={errMsg ? "alert alert-danger p-1" : "offscreen"}
+                  role="alert"
+                  aria-live="assertive"
+                >
+                  {errMsg}
+                </div>
+
+                <hr />
+
+                <span className="line">
+                  <Link to="/"> Sign Up</Link>
+                </span>
+              </Form>
             </div>
-
-            <hr />
-
-            <span className="line">
-              <Link to="/"> Sign Up</Link>
-            </span>
-          </Form>
+          </div>
         </div>
       </div>
     </section>
