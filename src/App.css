@@ -52,9 +52,17 @@ div.content {
   width: 50%;
 }
 .card {
-  background-color: #f4eeee37!important;
+  background-color: #fafafa75!important;
   margin-bottom: 10px;
 }
 .active {
   background: lightgray;
+}
+.btn.btn-success.active,
+
+.btn.btn-success:active {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #5cb85c;
+  outline: none;
 }

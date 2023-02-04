@@ -13,7 +13,7 @@ const Unauthorized = () => {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      <header className=" bg-secondary py-5">
+      <header className=" bg-dark p-2 text-dark bg-opacity-25 py-5">
         <div className="container px-lg-5">
           <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
             {user ? (

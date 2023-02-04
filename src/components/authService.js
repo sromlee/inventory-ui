@@ -1,11 +1,10 @@
 import axios from "../api/axios";
 import jwt from "jwt-decode";
-import jwtDecode from "jwt-decode";
 
 const API_LOGOUT_URL = "/api/v1/logout";
 
 const logout = ({ access_token }) => {
-  // const { user } = useAuth();
+
   let token = "Bearer " + access_token;
   const headers = {
     Authorization: token,
@@ -25,16 +24,10 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
-
 const getCurrentRole = (token)=>{
   const decode_user = jwt(token)
   return decode_user.Role
 }
-
-const setToken = (token) => {
-  localStorage.setItem(localStorage.getItem("user").access_token, token)
-}
-
 
 const getLocalRefreshToken = () =>{
   const user = JSON.parse(localStorage.getItem("user"));

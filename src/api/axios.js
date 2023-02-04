@@ -1,8 +1,6 @@
 import axios from "axios";
 import AuthService from "../components/AuthService";
-import { useAuth } from "../components/context/AuthProvider";
 import TokenService from "../TokenService";
-import React from "react";
 
 const BASE_URL = "http://localhost:8000/";
 
@@ -15,9 +13,10 @@ instance.interceptors.request.use(
     const token = AuthService.getCurrentUser();
     if (token) {
       config.headers["Authorization"] = "Bearer " + token.access_token;
+      config.headers["Content-Type"] = "application/x-www-form-urlencoded";
     }
     console.log("request => config ====================================");
-    console.log(config);
+    // console.log(config);
     console.log("request => config ====================================");
 
     // if u add new Chainable promise or other interceptor
@@ -31,7 +30,6 @@ instance.interceptors.request.use(
   }
 );
 
-
 instance.interceptors.response.use(
   (res) => {
     return res;
@@ -41,16 +39,24 @@ instance.interceptors.response.use(
 
     if (originalConfig.url !== "/api/v1/refresh" && err.response) {
       // Access Token was expired
+      var data = new FormData();
+      data.append("refresh_token", TokenService.getLocalRefreshToken());
+
       if (err.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
 
         try {
-          console.log("=========== refreshToken : "+ TokenService.getLocalRefreshToken())  
-          const rs = await instance.post("/api/v1/refresh", {
-            refreshToken: TokenService.getLocalRefreshToken(),
+          console.log(
+            "=========== refreshToken : " + TokenService.getLocalRefreshToken()
+          );
+
+          const rs = await instance.post("/api/v1/refresh", data, {
+            headers: { "Content-Type": "application/json;" },
+            params: { refresh_token: TokenService.getLocalRefreshToken() },
+            withCredentials: true, //Add userID as a param
           });
-          
-          const { accessToken } = rs.data;
+
+          const accessToken = rs.data.access_token;
           TokenService.updateLocalAccessToken(accessToken);
 
           return instance(originalConfig);
@@ -58,11 +64,16 @@ instance.interceptors.response.use(
           return Promise.reject(_error);
         }
       }
+      if (err.response.status === 403 && err.response.data) {
+        return Promise.reject(err.response.data);
+      }
+    }
+    if (originalConfig.url == "/api/v1/refresh" && err.response) {
+      localStorage.removeItem("user");
     }
 
     return Promise.reject(err);
   }
 );
-
 
 export default instance;

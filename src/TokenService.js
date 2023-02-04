@@ -1,18 +1,17 @@
 const getLocalRefreshToken = () => {
-  console.log("getLocalRefreshToken()")
+   console.log("getLocalRefreshToken()")
     const user = JSON.parse(localStorage.getItem("user"));
-    return user?.refreshToken;
+    return user?.refresh_token;
   };
   
   const getLocalAccessToken = () => {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user?.accessToken)
-    return user?.accessToken;
+    return user?.access_tokken;
   };
   
   const updateLocalAccessToken = (token) => {
     let user = JSON.parse(localStorage.getItem("user"));
-    user.accessToken = token;
+    user.access_token = token;
     localStorage.setItem("user", JSON.stringify(user));
     
   };

@@ -6,8 +6,8 @@ import AuthService from "./AuthService";
 const Protected = ()  => {
   
   const user = AuthService.getCurrentUser()
-  console.log("User in Protected")
-  console.log(user)
+  // console.log("User in Protected")
+  // console.log(user)
 
 
   if (!user?.access_token ) {

@@ -21,7 +21,7 @@ function Navigation() {
             >
               <Container>
                 <Navbar.Brand>
-                  <img width="150" src={logo} />
+                  <img width="150" src={logo} alt="DILOK"/>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
@@ -55,7 +55,7 @@ function Navigation() {
                           onClick={(e) => {
                             e.preventDefault();
                             AuthService.logout(user);
-                            window.location.href = "/";
+                            window.location.href = "/login";
                           }}
                         >
                           {" "}

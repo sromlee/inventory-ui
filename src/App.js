@@ -12,7 +12,6 @@ import { useAuth } from "./components/context/AuthProvider";
 import Register from "./components/pages/Register";
 import ProtectedAdmin from "./components/ProtectedAdmin";
 import Unauthorized from "./components/pages/Unauthorized";
-import axios from "axios";
 
 const App = () => {
   const { user } = useAuth();
