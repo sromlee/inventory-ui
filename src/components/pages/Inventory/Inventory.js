@@ -2,7 +2,7 @@ import React from "react";
 import ResponsiveExample from "./InventoryTable";
 import InventorySearchForm from "./InventorySearchForm";
 import { useState } from "react";
-import Alert from "react-bootstrap/Alert";
+import AuthService from "../../AuthService";
 
 function Inventory() {
   const [productId, setProductID] = useState("");
@@ -11,32 +11,44 @@ function Inventory() {
   const [buttonClicked, setButtonClicked] = useState("");
   const [customer, setCustomer] = useState("");
   const [errors, setError] = useState([]);
+  const role = AuthService.getCurrentRole(
+    AuthService.getCurrentUser().access_token
+  );
 
   const submitHandler = async (e) => {
     setError("");
     var error = [];
     e.preventDefault();
-    if (!customer) {
-      error.push("กรุณาเลือกกลุ่มลูกค้าที่ต้องการ");
-      if (buttonClicked === "productId") {
-        if (!productId) {
-          error.push("กรุณาเลือกรหัสสินค้าที่ต้องการค้นหา");
-        }
-      }
-      if (buttonClicked === "productName") {
-        if (!productId) {
-          error.push("กรุณาเลือกสินค้าที่ต้องการค้นหา");
-        }
-      }
-      if (buttonClicked === "barcode") {
-        if (!barcode) {
-          error.push("กรุณาเลือกบาร์โค้ดที่ต้องการค้นหา");
-        }
+
+    if (role === "admin ") {
+      if (!customer) {
+        error.push("กรุณาเลือกกลุ่มลูกค้าที่ต้องการ");
       }
     }
 
-    setError(error);
+    if (buttonClicked === "productId") {
+      if (!productId) {
+        error.push("กรุณาเลือกรหัสสินค้าที่ต้องการค้นหา");
+      }
+    }
+    if (buttonClicked === "productName") {
+      if (!productId) {
+        error.push("กรุณาเลือกสินค้าที่ต้องการค้นหา");
+      }
+    }
+    if (buttonClicked === "barcode") {
+      if (!barcode) {
+        error.push("กรุณาเลือกบาร์โค้ดที่ต้องการค้นหา");
+      }
+    }
 
+    if (error.length >= 1) {
+      setError(error);
+    } else {
+      // call api
+    }
+
+    console.log("There is/are error in the form : " + error);
     console.log("Button clicked: " + buttonClicked);
     console.log("Product id: " + productId);
     console.log("ProductName: " + productName);
@@ -68,7 +80,7 @@ function Inventory() {
                   <div className="small" role="alert">
                     {errors.map((item, i) => (
                       <div
-                        class="text-danger"
+                        className="text-danger"
                         variant="danger"
                         size="sm"
                         key={i}

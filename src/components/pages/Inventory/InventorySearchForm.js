@@ -79,7 +79,7 @@ function InventorySearchForm(props) {
       >
         <Row>
           <Col>
-            <Form.Group className="mb-2"  controlId="productId">
+            <Form.Group className="mb-2" controlId="productId">
               <Form.Label>รหัสสินค้า</Form.Label>
               <AutoComplete
                 data={productList.fetch_items}
@@ -88,20 +88,19 @@ function InventorySearchForm(props) {
               />
             </Form.Group>
           </Col>
-          <Col>
-            <br />
-            <div style={{ display: "flex" }}>
-              <Button
-                id="productId"
-                className="btn btn-dark btn-sm"
-                type="submit"
-                style={{ marginLeft: "auto" }}
-                onClick={handleOnClick}
-              >
-                ค้นหา
-              </Button>
-            </div>
-          </Col>
+        </Row>
+        <Row>
+          <div style={{ display: "flex" }}>
+            <Button
+              id="productId"
+              className="btn btn-dark btn-sm"
+              type="submit"
+              style={{ marginLeft: "auto" }}
+              onClick={handleOnClick}
+            >
+              ค้นหา
+            </Button>
+          </div>
         </Row>
         <Row>
           <Col>
@@ -114,8 +113,10 @@ function InventorySearchForm(props) {
               />
             </Form.Group>
           </Col>
+        </Row>
+        <Row>
+          {" "}
           <Col>
-            <br />
             <div style={{ display: "flex" }}>
               <Button
                 id="barcode"
@@ -129,10 +130,9 @@ function InventorySearchForm(props) {
             </div>
           </Col>
         </Row>
-
         <Row>
           <Col>
-            <Form.Group className="mb-3" controlId="productName">
+            <Form.Group className="mb-2" controlId="productName">
               <Form.Label>ชื่อสินค้า</Form.Label>
               <AutoComplete
                 data={productNameList.fetch_items}
@@ -158,23 +158,19 @@ function InventorySearchForm(props) {
           </Col>
         </Row>
         <Row>
-          {role == "admin" && (
+          {role === "admin" && (
             <Col>
               <Form.Group required>
                 <DropdownButton
                   alignRight
-                  title= {dropdownTitle? (dropdownTitle) : "กลุ่มลูกค้า"}
+                  title={dropdownTitle ? dropdownTitle : "กลุ่มลูกค้า"}
                   id="dropdown-menu-align-right"
                   size="sm"
                   onSelect={handleSelect}
                   required
                 >
-                  <Dropdown.Item eventKey="BigC" >
-                    Big C
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="Lotus" >
-                    Lotus
-                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="BigC">Big C</Dropdown.Item>
+                  <Dropdown.Item eventKey="Lotus">Lotus</Dropdown.Item>
                 </DropdownButton>
               </Form.Group>
             </Col>
