@@ -29,14 +29,14 @@ const App = () => {
       <Navigation />
       <div
         name="winter-neva-gradient color-block"
-        style={{ background: 'linear-gradient(to bottom, rgba(193,226,223,0.5), rgba(255,255,255,0.5))' 
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(193,226,223,0.5), rgba(255,255,255,0.5))",
         }}
-      
       >
-        
         <Routes>
           {/* Public Route */}
-         
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/unauthorized" element={<Unauthorized />} />

@@ -4,25 +4,18 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "../../../api/axios";
 import { useState, useEffect } from "react";
-import AutoComplete from "./AutoComplete";
 import AuthService from "../../AuthService";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
 function InventorySearchForm(props) {
+  const SEARCH_URL = "/api/v1/search";
   const role = AuthService.getCurrentRole(
     AuthService.getCurrentUser().access_token
   );
-
-  const PRODUCTID_LIST_URL = "api/search/pre-search/product_Id";
-  const PRODUCTNAME_LIST_URL = "api/search/pre-search/product_name";
-  const BARCODE_LIST_URL = "api/search/pre-search/barcode";
+  const [value, setValue] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
-
-  // Variable for pre-search feild
-  const [productList, setproductList] = useState([]);
-  const [productNameList, setproductNameList] = useState([]);
-  const [productBarcodeList, setproductBarcodeList] = useState([]);
 
   const handleSelect = (e) => {
     console.log(e);
@@ -30,45 +23,46 @@ function InventorySearchForm(props) {
     setDropdownTitle(e);
   };
 
-  const handleOnClick = (e) => {
-    props.setButtonClicked(e.target.id);
-  };
-
-  // Get Product ID list
   useEffect(() => {
-    axios
-      .get(PRODUCTID_LIST_URL, {
-        withCredentials: true,
-      })
-      .then((res) => setproductList(res.data))
-      .catch((err) =>
-        console.log("(InventorySearchForm : Get product id list :)" + err)
-      );
-  }, []);
+    console.log("SearchTerm: " + searchTerm);
+    if (searchTerm.length < 3) {
+      return;
+    }
 
-  // Get Product Name list
-  useEffect(() => {
-    axios
-      .get(PRODUCTNAME_LIST_URL, {
-        withCredentials: true,
-      })
-      .then((res) => setproductNameList(res.data))
-      .catch((err) =>
-        console.log("(InventorySearchForm : Get product name list :)" + err)
-      );
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      console.log("Start to Searh " + searchTerm);
+      // Send Axios request here
+      axios
+        .get(
+          SEARCH_URL,
+          {
+            params: {
+              barcode: searchTerm,
+              product_name: searchTerm,
+              product_id: searchTerm,
+            },
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          props.setProductResult(res.data);
+          if (res.data.products.length === 0) {
+            console.log(res.data.products.length)
+            props.setShow(false);
+          } else {
+            props.setShow(true);
+          }
+        })
+        .catch(
+          (err) => props.setError("err")
 
-  // Get Barcode list
-  useEffect(() => {
-    axios
-      .get(BARCODE_LIST_URL, {
-        withCredentials: true,
-      })
-      .then((res) => setproductBarcodeList(res.data))
-      .catch((err) =>
-        console.log("(InventorySearchForm : Get barcode list :)" + err)
-      );
-  }, []);
+          // console.log("(InventorySearchForm : Get product name list :)" + err)
+        );
+    }, 1000);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
 
   return (
     <div>
@@ -80,83 +74,19 @@ function InventorySearchForm(props) {
         <Row>
           <Col>
             <Form.Group className="mb-2" controlId="productId">
-              <Form.Label>รหัสสินค้า</Form.Label>
-              <AutoComplete
-                data={productList.fetch_items}
-                name="productId"
-                setProductID={props.setProductID}
+              <Form.Label> ค้นหา </Form.Label>
+              <Form.Control
+                type="text"
+                value={searchTerm}
+                autoComplete="off"
+                aria-expanded="false"
+                size="sm"
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Form.Group>
           </Col>
         </Row>
-        <Row>
-          <div style={{ display: "flex" }}>
-            <Button
-              id="productId"
-              className="btn btn-dark btn-sm"
-              type="submit"
-              style={{ marginLeft: "auto" }}
-              onClick={handleOnClick}
-            >
-              ค้นหา
-            </Button>
-          </div>
-        </Row>
-        <Row>
-          <Col>
-            <Form.Group className="mb-2" controlId="barcode">
-              <Form.Label>บาร์โค้ด</Form.Label>
-              <AutoComplete
-                data={productBarcodeList.fetch_items}
-                name="barcode"
-                setBarcode={props.setBarcode}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          {" "}
-          <Col>
-            <div style={{ display: "flex" }}>
-              <Button
-                id="barcode"
-                className="btn btn-dark btn-sm"
-                type="submit"
-                style={{ marginLeft: "auto" }}
-                onClick={handleOnClick}
-              >
-                ค้นหา
-              </Button>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Form.Group className="mb-2" controlId="productName">
-              <Form.Label>ชื่อสินค้า</Form.Label>
-              <AutoComplete
-                data={productNameList.fetch_items}
-                name="productName"
-                setProductName={props.setProductName}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div style={{ display: "flex" }}>
-              <Button
-                id="productName"
-                style={{ marginLeft: "auto" }}
-                type="submit"
-                className="btn btn-dark btn-sm"
-                onClick={handleOnClick}
-              >
-                ค้นหา
-              </Button>
-            </div>
-          </Col>
-        </Row>
+
         <Row>
           {role === "admin" && (
             <Col>

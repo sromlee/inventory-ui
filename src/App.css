@@ -1,7 +1,15 @@
 .p{
   font-size: 14px;
 }
+
 .body { padding-top: 40px; 
+  font-size: 1rem;
+}
+
+@media (max-width: 576px) {
+  body {
+    font-size: 0.9rem;
+  }
 }
 .section{
   padding-top: 40px;
@@ -65,4 +73,9 @@ div.content {
   background-color: #5cb85c;
   border-color: #5cb85c;
   outline: none;
+}
+@media (max-width: 576px) {
+  table {
+    font-size: 0.9rem;
+  }
 }
