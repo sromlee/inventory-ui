@@ -37,9 +37,8 @@ function InventorySearchForm(props) {
           SEARCH_URL,
           {
             params: {
-              barcode: searchTerm,
-              product_name: searchTerm,
-              product_id: searchTerm,
+              search_term: searchTerm,
+              limit: 2
             },
           },
           {

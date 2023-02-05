@@ -7,3 +7,8 @@
   .blue-text {
     color: blue;
   }
+
+.small-select .react-select__control {
+height: 30px;
+width: 100px;
+}

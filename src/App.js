@@ -26,6 +26,7 @@ const App = () => {
 
   return (
     <div>
+      
       <Navigation />
       <div
         name="winter-neva-gradient color-block"
