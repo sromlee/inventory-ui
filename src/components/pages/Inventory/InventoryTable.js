@@ -43,7 +43,7 @@ export default function Table(props) {
                     style={{ cursor: "pointer", textAlign: "center" }}
                   >
                    
-                    {column === "ยอดคงเหลือ (สุทธิ)" ? "คงเหลือ" : column}
+                    {column}
                   </th>
                 ))}
               </tr>

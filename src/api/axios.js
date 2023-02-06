@@ -2,6 +2,8 @@ import axios from "axios";
 import AuthService from "../components/AuthService";
 import TokenService from "../TokenService";
 
+import { Navigate ,Outlet} from "react-router-dom";
+
 const BASE_URL = "http://localhost:8000/";
 
 const instance = axios.create({
@@ -68,8 +70,13 @@ instance.interceptors.response.use(
         return Promise.reject(err.response.data);
       }
     }
-    if (originalConfig.url == "/api/v1/refresh" && err.response) {
+    if (originalConfig.url == "/api/v1/refresh" && err.response.status === 401) {
+      
       localStorage.removeItem("user");
+      console.log("Refresh token expired ..........  "+ originalConfig.url)
+      window.location.href = '/unauthorized';
+
+      return Promise.reject(err);;
     }
 
     return Promise.reject(err);
