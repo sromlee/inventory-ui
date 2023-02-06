@@ -4,11 +4,11 @@ import "./table.css";
 
 export default function Table(props) {
   const [selectedColumns, setSelectedColumns] = useState([
-    "ชื่อสินค้า",
-    "รหัส",
-    "บาร์โค้ด",
-    "ยอดคงเหลือ (สุทธิ)",
-    "ราคา",
+    "name",
+    "code",
+    "barcode",
+    "balance_qty",
+    "price",
   ]);
   const [sortColumn, setSortColumn] = useState(null);
 
@@ -31,7 +31,7 @@ export default function Table(props) {
   return (
     <div>
       <div>
-        <hr/>
+        <hr />
         <div className="table table-striped table-responsive-sm">
           <table className="table table-striped">
             <thead className="thead-dark">
@@ -42,8 +42,31 @@ export default function Table(props) {
                     onClick={() => setSortColumn(column)}
                     style={{ cursor: "pointer", textAlign: "center" }}
                   >
-                   
-                    {column}
+                    {column === "accrued_out_qty"
+                      ? "ยอดค้างส่ง"
+                      : column === "balance_qty"
+                      ? "ยอดคงเหลือ (สุทธิ)"
+                      : column === "barcode"
+                      ? "บาร์โค้ด"
+                      : column === "book_out_qty"
+                      ? "ยอดค้างจอง"
+                      : column === "code"
+                      ? "รหัส"
+                      : column === "discount"
+                      ? "รหัส"
+                      : column === "image"
+                      ? "รูป"
+                      : column === "name"
+                      ? "ชื่อสินค้า"
+                      : column === "price"
+                      ? "ราคา"
+                      : column === "properties"
+                      ? "รายละเอียด"
+                      : column === "total_price"
+                      ? "ราคาสุทธิ"
+                      : column === "unit_standard"
+                      ? "หน่วยนับยอดคงเหลือ"
+                      : column}
                   </th>
                 ))}
               </tr>

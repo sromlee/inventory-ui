@@ -13,7 +13,7 @@ function InventorySearchForm(props) {
   const role = AuthService.getCurrentRole(
     AuthService.getCurrentUser().access_token
   );
-  const [value, setValue] = useState("");
+
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
 
@@ -38,7 +38,7 @@ function InventorySearchForm(props) {
           {
             params: {
               search_term: searchTerm,
-              limit: 2
+              limit: 15
             },
           },
           {
@@ -55,9 +55,7 @@ function InventorySearchForm(props) {
           }
         })
         .catch(
-          (err) => props.setError("err")
-
-          // console.log("(InventorySearchForm : Get product name list :)" + err)
+          (err) => props.setError(err)
         );
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
