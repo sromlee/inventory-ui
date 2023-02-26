@@ -20,7 +20,7 @@ function InventorySearchForm(props) {
   const submitHandler = (e) => {
     e.preventDefault();
   };
-  
+
   const handleSelect = (e) => {
     console.log(e);
     setCustomer(e);
@@ -114,8 +114,14 @@ function InventorySearchForm(props) {
                   onSelect={handleSelect}
                   required
                 >
-                  <Dropdown.Item eventKey="BigC">Big C</Dropdown.Item>
-                  <Dropdown.Item eventKey="Lotus">Lotus</Dropdown.Item>
+                  <Dropdown.Item eventKey="B2S">B2S</Dropdown.Item>
+                  <Dropdown.Item eventKey="OFM">OFM</Dropdown.Item>
+                  <Dropdown.Item eventKey="BigC">BigC</Dropdown.Item>
+                  <Dropdown.Item eventKey="The Mall">The Mall</Dropdown.Item>
+                  <Dropdown.Item eventKey="Amarin">Amarin</Dropdown.Item>
+                  <Dropdown.Item eventKey="Se-ed">Se-ed</Dropdown.Item>
+                  <Dropdown.Item eventKey="Asia Book, Watsons">Asia Book, Watsons</Dropdown.Item>
+                  <Dropdown.Item eventKey="CJ">CJ</Dropdown.Item>
                   <Dropdown.Item eventKey="store_price">
                     Store Price
                   </Dropdown.Item>
