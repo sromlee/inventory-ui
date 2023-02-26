@@ -9,8 +9,10 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
+  
   function (config) {
     const token = AuthService.getCurrentUser();
+    config.headers["Access-Control-Allow-Origin"] = "*";
     if (token) {
       config.headers["Authorization"] = "Bearer " + token.access_token;
       config.headers["Content-Type"] = "application/x-www-form-urlencoded";

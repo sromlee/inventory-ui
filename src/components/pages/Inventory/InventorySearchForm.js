@@ -13,15 +13,17 @@ function InventorySearchForm(props) {
     AuthService.getCurrentUser().access_token
   );
 
+  const [customer, setCustomer] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
 
   const submitHandler = (e) => {
     e.preventDefault();
   };
+  
   const handleSelect = (e) => {
     console.log(e);
-    props.onSelectCustomer(e);
+    setCustomer(e);
     setDropdownTitle(e);
   };
 
@@ -33,33 +35,45 @@ function InventorySearchForm(props) {
 
     const delayDebounceFn = setTimeout(() => {
       console.log("Start to Searh " + searchTerm);
-      // Send Axios request here
-      axios
-        .get(
-          SEARCH_URL,
-          {
-            params: {
-              search_term: searchTerm,
-              limit: 15,
+      if (role === "user" || role === "sale_store" || role === "sale_admin_store" ) {
+        setCustomer("store_price");
+      }
+
+      if (customer != "")
+        // Send Axios request here
+        axios
+          .get(
+            SEARCH_URL,
+            {
+              params: {
+                search_term: searchTerm,
+                limit: 5,
+                customer_name: customer,
+              },
             },
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          props.setProductResult(res.data);
-          if (res.data.products.length === 0) {
-            console.log(res.data.products.length);
-            props.setShow(false);
-          } else {
-            props.setShow(true);
-          }
-        })
-        .catch((err) => props.setError(err));
+            {
+              header: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+              },
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            props.setProductResult(res.data);
+            if (res.data.products.length === 0) {
+              console.log(res.data.products.length);
+              props.setShow(false);
+            } else {
+              props.setShow(true);
+            }
+          })
+
+          .catch((err) => props.setError(err));
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+  }, [searchTerm, customer]);
 
   return (
     <div>
@@ -102,6 +116,9 @@ function InventorySearchForm(props) {
                 >
                   <Dropdown.Item eventKey="BigC">Big C</Dropdown.Item>
                   <Dropdown.Item eventKey="Lotus">Lotus</Dropdown.Item>
+                  <Dropdown.Item eventKey="store_price">
+                    Store Price
+                  </Dropdown.Item>
                 </DropdownButton>
               </Form.Group>
             </Col>

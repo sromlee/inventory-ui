@@ -8,15 +8,6 @@ function Inventory() {
   const [errors, setError] = useState([]);
   const [show, setShow]=useState(false)
   const [productResult, setProductResult] = useState([]);
-  const [customer, setCustomer]=useState("")
-
-  const onSelectCustomer = (e) =>{
-      setCustomer(e) 
-      console.log("Set customer as "+ customer)
-  }
-  // const role = AuthService.getCurrentRole(
-  //   AuthService.getCurrentUser().access_token
-  // );
 
 
   return (
@@ -32,7 +23,6 @@ function Inventory() {
                   setProductResult={setProductResult}
                   setError={setError}
                   setShow={setShow}
-                  onSelectCustomer = {onSelectCustomer}
                 />
                 {errors.length >= 1 ? (
                   <div className="small" role="alert">

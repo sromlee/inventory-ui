@@ -30,6 +30,18 @@ export default function Table(props) {
 
   return (
     <div>
+      <div className="mb-3">
+        <Select
+          lassName="small-select"
+          options={allColumns}
+          isMulti
+          value={selectedColumns.map((column) => ({
+            label: column,
+            value: column,
+          }))}
+          onChange={handleSelectedColumns}
+        />
+      </div>
       <div>
         <hr />
         <div className="table table-striped table-responsive-sm">
@@ -94,18 +106,6 @@ export default function Table(props) {
           </table>
         </div>
         <hr />
-      </div>
-      <div className="mb-3">
-        <Select
-          lassName="small-select"
-          options={allColumns}
-          isMulti
-          value={selectedColumns.map((column) => ({
-            label: column,
-            value: column,
-          }))}
-          onChange={handleSelectedColumns}
-        />
       </div>
     </div>
   );
