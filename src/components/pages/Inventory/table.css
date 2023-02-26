@@ -1,0 +1,14 @@
+@media (max-width: 576px) {
+    table {
+      font-size: 0.7rem;
+    }
+  }
+  
+  .blue-text {
+    color: blue;
+  }
+
+.small-select .react-select__control {
+height: 30px;
+width: 100px;
+}

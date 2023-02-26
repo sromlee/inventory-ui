@@ -1,179 +1,129 @@
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "../../../api/axios";
 import { useState, useEffect } from "react";
-import AutoComplete from "./AutoComplete";
 import AuthService from "../../AuthService";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 
 function InventorySearchForm(props) {
+  const SEARCH_URL = "/api/v1/search";
   const role = AuthService.getCurrentRole(
     AuthService.getCurrentUser().access_token
   );
 
-  const PRODUCTID_LIST_URL = "api/search/pre-search/product_Id";
-  const PRODUCTNAME_LIST_URL = "api/search/pre-search/product_name";
-  const BARCODE_LIST_URL = "api/search/pre-search/barcode";
+  const [customer, setCustomer] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
 
-  // Variable for pre-search feild
-  const [productList, setproductList] = useState([]);
-  const [productNameList, setproductNameList] = useState([]);
-  const [productBarcodeList, setproductBarcodeList] = useState([]);
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
 
   const handleSelect = (e) => {
     console.log(e);
-    props.setCustomer(e);
+    setCustomer(e);
     setDropdownTitle(e);
   };
 
-  const handleOnClick = (e) => {
-    props.setButtonClicked(e.target.id);
-  };
-
-  // Get Product ID list
   useEffect(() => {
-    axios
-      .get(PRODUCTID_LIST_URL, {
-        withCredentials: true,
-      })
-      .then((res) => setproductList(res.data))
-      .catch((err) =>
-        console.log("(InventorySearchForm : Get product id list :)" + err)
-      );
-  }, []);
+    console.log("SearchTerm: " + searchTerm);
+    if (searchTerm.length < 3) {
+      return;
+    }
 
-  // Get Product Name list
-  useEffect(() => {
-    axios
-      .get(PRODUCTNAME_LIST_URL, {
-        withCredentials: true,
-      })
-      .then((res) => setproductNameList(res.data))
-      .catch((err) =>
-        console.log("(InventorySearchForm : Get product name list :)" + err)
-      );
-  }, []);
+    const delayDebounceFn = setTimeout(() => {
+      console.log("Start to Searh " + searchTerm);
+      if (role === "user" || role === "sale_store" || role === "sale_admin_store" ) {
+        setCustomer("store_price");
+      }
 
-  // Get Barcode list
-  useEffect(() => {
-    axios
-      .get(BARCODE_LIST_URL, {
-        withCredentials: true,
-      })
-      .then((res) => setproductBarcodeList(res.data))
-      .catch((err) =>
-        console.log("(InventorySearchForm : Get barcode list :)" + err)
-      );
-  }, []);
+      if (customer != "")
+        // Send Axios request here
+        axios
+          .get(
+            SEARCH_URL,
+            {
+              params: {
+                search_term: searchTerm,
+                limit: 5,
+                customer_name: customer,
+              },
+            },
+            {
+              header: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+              },
+              withCredentials: true,
+            }
+          )
+          .then((res) => {
+            props.setProductResult(res.data);
+            if (res.data.products.length === 0) {
+              console.log(res.data.products.length);
+              props.setShow(false);
+            } else {
+              props.setShow(true);
+            }
+          })
+
+          .catch((err) => props.setError(err));
+    }, 1000);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm, customer]);
 
   return (
     <div>
       <Form
         className="rounded p-4 p-sm-3"
         aria-expanded="false"
-        onSubmit={props.submitHandler}
+        onSubmit={submitHandler}
       >
         <Row>
           <Col>
-            <Form.Group className="mb-2"  controlId="productId">
-              <Form.Label>รหัสสินค้า</Form.Label>
-              <AutoComplete
-                data={productList.fetch_items}
-                name="productId"
-                setProductID={props.setProductID}
+            <Form.Group
+              className="mb-2"
+              controlId="productId"
+              onSubmit={submitHandler}
+            >
+              <p> ค้นหา </p>
+              <Form.Control
+                type="text"
+                value={searchTerm}
+                autoComplete="off"
+                aria-expanded="false"
+                size="sm"
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Form.Group>
-          </Col>
-          <Col>
-            <br />
-            <div style={{ display: "flex" }}>
-              <Button
-                id="productId"
-                className="btn btn-dark btn-sm"
-                type="submit"
-                style={{ marginLeft: "auto" }}
-                onClick={handleOnClick}
-              >
-                ค้นหา
-              </Button>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Form.Group className="mb-2" controlId="barcode">
-              <Form.Label>บาร์โค้ด</Form.Label>
-              <AutoComplete
-                data={productBarcodeList.fetch_items}
-                name="barcode"
-                setBarcode={props.setBarcode}
-              />
-            </Form.Group>
-          </Col>
-          <Col>
-            <br />
-            <div style={{ display: "flex" }}>
-              <Button
-                id="barcode"
-                className="btn btn-dark btn-sm"
-                type="submit"
-                style={{ marginLeft: "auto" }}
-                onClick={handleOnClick}
-              >
-                ค้นหา
-              </Button>
-            </div>
           </Col>
         </Row>
 
         <Row>
-          <Col>
-            <Form.Group className="mb-3" controlId="productName">
-              <Form.Label>ชื่อสินค้า</Form.Label>
-              <AutoComplete
-                data={productNameList.fetch_items}
-                name="productName"
-                setProductName={props.setProductName}
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div style={{ display: "flex" }}>
-              <Button
-                id="productName"
-                style={{ marginLeft: "auto" }}
-                type="submit"
-                className="btn btn-dark btn-sm"
-                onClick={handleOnClick}
-              >
-                ค้นหา
-              </Button>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          {role == "admin" && (
+          {role === "admin" && (
             <Col>
               <Form.Group required>
                 <DropdownButton
                   alignRight
-                  title= {dropdownTitle? (dropdownTitle) : "กลุ่มลูกค้า"}
+                  title={dropdownTitle ? dropdownTitle : "กลุ่มลูกค้า"}
                   id="dropdown-menu-align-right"
                   size="sm"
                   onSelect={handleSelect}
                   required
                 >
-                  <Dropdown.Item eventKey="BigC" >
-                    Big C
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="Lotus" >
-                    Lotus
+                  <Dropdown.Item eventKey="B2S">B2S</Dropdown.Item>
+                  <Dropdown.Item eventKey="OFM">OFM</Dropdown.Item>
+                  <Dropdown.Item eventKey="BigC">BigC</Dropdown.Item>
+                  <Dropdown.Item eventKey="The Mall">The Mall</Dropdown.Item>
+                  <Dropdown.Item eventKey="Amarin">Amarin</Dropdown.Item>
+                  <Dropdown.Item eventKey="Se-ed">Se-ed</Dropdown.Item>
+                  <Dropdown.Item eventKey="Asia Book, Watsons">Asia Book, Watsons</Dropdown.Item>
+                  <Dropdown.Item eventKey="CJ">CJ</Dropdown.Item>
+                  <Dropdown.Item eventKey="store_price">
+                    Store Price
                   </Dropdown.Item>
                 </DropdownButton>
               </Form.Group>
