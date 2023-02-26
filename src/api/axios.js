@@ -2,10 +2,8 @@ import axios from "axios";
 import AuthService from "../components/AuthService";
 import TokenService from "../TokenService";
 
-import { Navigate ,Outlet} from "react-router-dom";
-
-const BASE_URL = "http://localhost:8000/";
-
+// const BASE_URL = "http://174.138.18.87";
+const BASE_URL = "http://localhost:8000/"
 const instance = axios.create({
   baseURL: BASE_URL,
 });
@@ -16,6 +14,7 @@ instance.interceptors.request.use(
     if (token) {
       config.headers["Authorization"] = "Bearer " + token.access_token;
       config.headers["Content-Type"] = "application/x-www-form-urlencoded";
+      config.headers["Access-Control-Allow-Origin"] = "*";
     }
     console.log("request => config ====================================");
     // console.log(config);
@@ -70,7 +69,7 @@ instance.interceptors.response.use(
         return Promise.reject(err.response.data);
       }
     }
-    if (originalConfig.url == "/api/v1/refresh" && err.response.status === 401) {
+    if (originalConfig.url === "/api/v1/refresh" && err.response.status === 401) {
       
       localStorage.removeItem("user");
       console.log("Refresh token expired ..........  "+ originalConfig.url)

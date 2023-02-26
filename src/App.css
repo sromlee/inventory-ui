@@ -1,3 +1,5 @@
+
+
 .p{
   font-size: 14px;
 }
@@ -6,10 +8,10 @@
   height: 30px;
   width: 100px;
   }
-  
+/*   
 .body { padding-top: 40px; 
   font-size: 1rem;
-}
+} */
 
 @media (max-width: 576px) {
   body {
@@ -78,9 +80,4 @@ div.content {
   background-color: #5cb85c;
   border-color: #5cb85c;
   outline: none;
-}
-@media (max-width: 576px) {
-  table {
-    font-size: 0.9rem;
-  }
 }

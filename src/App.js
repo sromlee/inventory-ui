@@ -12,6 +12,7 @@ import { useAuth } from "./components/context/AuthProvider";
 import Register from "./components/pages/Register";
 import ProtectedAdmin from "./components/ProtectedAdmin";
 import Unauthorized from "./components/pages/Unauthorized";
+import { GlobalStyles } from "./components/Styled";
 
 const App = () => {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ const App = () => {
 
   return (
     <div>
-      
+      <GlobalStyles />
       <Navigation />
       <div
         name="winter-neva-gradient color-block"

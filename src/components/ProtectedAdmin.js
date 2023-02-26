@@ -9,7 +9,7 @@ const ProtectedAdmin = ()  => {
 
   if(user){
     const role = AuthService.getCurrentRole(user.access_token)
-    if (role == "admin") {
+    if (role === "admin") {
        is_admin =true
     }
   }

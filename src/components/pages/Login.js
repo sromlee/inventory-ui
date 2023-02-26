@@ -72,7 +72,7 @@ const Login = () => {
         <div className="card-body">
           <div className="container card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
             <div className="text-center">
-              <h3> เข้าสู่ระบบ </h3>
+              <h1> เข้าสู่ระบบ </h1>
             </div>
             <div className="color-overley d-flex justify-content-center align-item-center">
               <Form className="rounded p-4 p-sm-3" onSubmit={submitHandler}>

@@ -9,7 +9,7 @@ function Usersetting() {
       <div className="card">
         <div className="card mt-4">
           <div className="card-body">
-            <h2> จัดการผู้ใช้งาน </h2>
+            <h1> จัดการผู้ใช้งาน </h1>
             <hr/>
             <UserSearchForm/>
             <hr/>

@@ -1,4 +1,3 @@
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -17,9 +16,12 @@ function InventorySearchForm(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
   const handleSelect = (e) => {
     console.log(e);
-    props.setCustomer(e);
+    props.onSelectCustomer(e);
     setDropdownTitle(e);
   };
 
@@ -38,7 +40,7 @@ function InventorySearchForm(props) {
           {
             params: {
               search_term: searchTerm,
-              limit: 15
+              limit: 15,
             },
           },
           {
@@ -48,15 +50,13 @@ function InventorySearchForm(props) {
         .then((res) => {
           props.setProductResult(res.data);
           if (res.data.products.length === 0) {
-            console.log(res.data.products.length)
+            console.log(res.data.products.length);
             props.setShow(false);
           } else {
             props.setShow(true);
           }
         })
-        .catch(
-          (err) => props.setError(err)
-        );
+        .catch((err) => props.setError(err));
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
@@ -66,12 +66,16 @@ function InventorySearchForm(props) {
       <Form
         className="rounded p-4 p-sm-3"
         aria-expanded="false"
-        onSubmit={props.submitHandler}
+        onSubmit={submitHandler}
       >
         <Row>
           <Col>
-            <Form.Group className="mb-2" controlId="productId">
-              <Form.Label> ค้นหา </Form.Label>
+            <Form.Group
+              className="mb-2"
+              controlId="productId"
+              onSubmit={submitHandler}
+            >
+              <p> ค้นหา </p>
               <Form.Control
                 type="text"
                 value={searchTerm}

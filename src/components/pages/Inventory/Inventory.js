@@ -1,26 +1,30 @@
 import React from "react";
 import Table from "./InventoryTable";
 import InventorySearchForm from "./InventorySearchForm";
-import { useState, useEffect } from "react";
-import AuthService from "../../AuthService";
+import { useState } from "react";
+// import AuthService from "../../AuthService";
 
 function Inventory() {
   const [errors, setError] = useState([]);
   const [show, setShow]=useState(false)
   const [productResult, setProductResult] = useState([]);
-  const role = AuthService.getCurrentRole(
-    AuthService.getCurrentUser().access_token
-  );
+  const [customer, setCustomer]=useState("")
 
-  console.log(show)
-  console.log(productResult)
+  const onSelectCustomer = (e) =>{
+      setCustomer(e) 
+      console.log("Set customer as "+ customer)
+  }
+  // const role = AuthService.getCurrentRole(
+  //   AuthService.getCurrentUser().access_token
+  // );
+
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <div className="container px-lg-5 ">
         <div className="card mt-4">
           <div className="card-body">
-            <h2> ตรวจสอบสินค้า </h2>
+            <h1> ตรวจสอบสินค้า </h1>
             <hr />
             <div className="card justify-content-md-center">
               <div className="card-body">
@@ -28,6 +32,7 @@ function Inventory() {
                   setProductResult={setProductResult}
                   setError={setError}
                   setShow={setShow}
+                  onSelectCustomer = {onSelectCustomer}
                 />
                 {errors.length >= 1 ? (
                   <div className="small" role="alert">

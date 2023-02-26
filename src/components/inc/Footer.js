@@ -7,12 +7,12 @@ function Footer() {
       <div className="container">
         <div className="row">
           <div className="col-6">
-            <h6> Company Information</h6>
+            <h1> Company Information</h1>
             <hr />
             <p>something</p>
           </div>
           <div className="col-6">
-            <h6>Quick Links</h6>
+            <h1>Quick Links</h1>
             <hr />
             <div>
               {" "}
