@@ -12,6 +12,12 @@
 .body { padding-top: 40px; 
   font-size: 1rem;
 } */
+.spinner-custom {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-left: 0.5rem;
+}
+
 
 @media (max-width: 576px) {
   body {

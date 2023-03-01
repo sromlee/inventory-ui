@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import AuthService from "../../AuthService";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
+import { Spinner } from "react-bootstrap";
 
 function InventorySearchForm(props) {
   const SEARCH_URL = "/api/v1/search";
@@ -16,6 +17,7 @@ function InventorySearchForm(props) {
   const [customer, setCustomer] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ function InventorySearchForm(props) {
   };
 
   useEffect(() => {
+    props.setError("");
     console.log("SearchTerm: " + searchTerm);
     if (searchTerm.length < 3) {
       return;
@@ -35,7 +38,13 @@ function InventorySearchForm(props) {
 
     const delayDebounceFn = setTimeout(() => {
       console.log("Start to Searh " + searchTerm);
-      if (role === "user" || role === "sale_store" || role === "sale_admin_store" ) {
+      setLoading(true);
+      props.setError("");
+      if (
+        role === "user" ||
+        role === "sale_store" ||
+        role === "sale_admin_store"
+      ) {
         setCustomer("store_price");
       }
 
@@ -47,7 +56,7 @@ function InventorySearchForm(props) {
             {
               params: {
                 search_term: searchTerm,
-                limit: 5,
+                limit: 15,
                 customer_name: customer,
               },
             },
@@ -65,12 +74,27 @@ function InventorySearchForm(props) {
             if (res.data.products.length === 0) {
               console.log(res.data.products.length);
               props.setShow(false);
+              props.setError("ไม่พบสินค้า");
             } else {
               props.setShow(true);
             }
           })
+          .catch((err) => {
+            if (err.response) {
+              // The request was made and the server responded with a status code
+              // that falls out of the range of 2xx
+              props.setError("Error: " + err.response.data.message);
+            } else if (err.request) {
+              // The request was made but no response was received
+              props.setError("No response from server");
+            } else {
+              // Something happened in setting up the request that triggered an Error
+              props.setError("Error: " + err.message);
+            }
 
-          .catch((err) => props.setError(err));
+            props.setShow(false);
+          })
+          .finally(() => setLoading(false));
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, customer]);
@@ -99,6 +123,19 @@ function InventorySearchForm(props) {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </Form.Group>
+            {loading && (
+              <div>
+                <div class="d-flex align-items-center">
+                  <strong>Loading... </strong>
+                  <div
+                    class="spinner-border spinner-custom"
+                    role="status"
+                    size='sm' 
+                    aria-hidden="true"
+                  ></div>
+                </div>
+              </div>
+            )}
           </Col>
         </Row>
 
@@ -120,7 +157,9 @@ function InventorySearchForm(props) {
                   <Dropdown.Item eventKey="The Mall">The Mall</Dropdown.Item>
                   <Dropdown.Item eventKey="Amarin">Amarin</Dropdown.Item>
                   <Dropdown.Item eventKey="Se-ed">Se-ed</Dropdown.Item>
-                  <Dropdown.Item eventKey="Asia Book, Watsons">Asia Book, Watsons</Dropdown.Item>
+                  <Dropdown.Item eventKey="Asia Book, Watsons">
+                    Asia Book, Watsons
+                  </Dropdown.Item>
                   <Dropdown.Item eventKey="CJ">CJ</Dropdown.Item>
                   <Dropdown.Item eventKey="store_price">
                     Store Price
@@ -131,8 +170,6 @@ function InventorySearchForm(props) {
           )}
         </Row>
       </Form>
-
-      {/* <div> {getProductList()}</div> */}
     </div>
   );
 }

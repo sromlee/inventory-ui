@@ -7,7 +7,7 @@ export default function Table(props) {
     "name",
     "code",
     "barcode",
-    "balance_qty",
+    "balance_qty_net",
     "price",
   ]);
   const [sortColumn, setSortColumn] = useState(null);
@@ -56,7 +56,7 @@ export default function Table(props) {
                   >
                     {column === "accrued_out_qty"
                       ? "ยอดค้างส่ง"
-                      : column === "balance_qty"
+                      : column === "balance_qty_net"
                       ? "ยอดคงเหลือ (สุทธิ)"
                       : column === "barcode"
                       ? "บาร์โค้ด"

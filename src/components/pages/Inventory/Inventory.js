@@ -9,6 +9,7 @@ function Inventory() {
   const [show, setShow]=useState(false)
   const [productResult, setProductResult] = useState([]);
 
+  console.log(errors)
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -24,19 +25,16 @@ function Inventory() {
                   setError={setError}
                   setShow={setShow}
                 />
-                {errors.length >= 1 ? (
+                {errors ? (
                   <div className="small" role="alert">
-                    {errors.map((item, i) => (
-                      <div
+                    <div
                         className="text-danger"
                         variant="danger"
                         size="sm"
-                        key={i}
                       >
                         {" "}
-                        {item}{" "}
+                        {errors}{" "}
                       </div>
-                    ))}
                   </div>
                 ) : (
                   <></>

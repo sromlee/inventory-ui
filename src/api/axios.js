@@ -2,8 +2,8 @@ import axios from "axios";
 import AuthService from "../components/AuthService";
 import TokenService from "../TokenService";
 
-// const BASE_URL = "http://174.138.18.87";
-const BASE_URL = "http://localhost:8000/"
+const BASE_URL = "http://174.138.18.87";
+// const BASE_URL = "http://localhost:8000/"
 const instance = axios.create({
   baseURL: BASE_URL,
 });
@@ -39,6 +39,9 @@ instance.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config;
+    if (!err.response) {
+      return Promise.reject(new Error("No response from server"));
+    }
 
     if (originalConfig.url !== "/api/v1/refresh" && err.response) {
       // Access Token was expired
@@ -68,6 +71,9 @@ instance.interceptors.response.use(
         }
       }
       if (err.response.status === 403 && err.response.data) {
+        return Promise.reject(err.response.data);
+      }
+      if (err.response.status === 500 && err.response.data) {
         return Promise.reject(err.response.data);
       }
     }
