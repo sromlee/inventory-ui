@@ -1,6 +1,22 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import Pagination from "react-bootstrap/Pagination";
 import "./table.css";
+
+const columnLabels = {
+  accrued_out_qty: "ยอดค้างส่ง",
+  balance_qty_net: "ยอดคงเหลือ (สุทธิ)",
+  barcode: "บาร์โค้ด",
+  book_out_qty: "ยอดค้างจอง",
+  code: "รหัส",
+  discount: "ส่วนลด",
+  image: "รูป",
+  name: "ชื่อสินค้า",
+  price: "ราคา",
+  properties: "รายละเอียด",
+  total_price: "ราคาสุทธิ",
+  unit_standard: "หน่วยนับยอดคงเหลือ",
+};
 
 export default function Table(props) {
   const [selectedColumns, setSelectedColumns] = useState([
@@ -10,23 +26,43 @@ export default function Table(props) {
     "balance_qty_net",
     "price",
   ]);
+  const [ellipsis, setEllipsis] = useState(false);
   const [sortColumn, setSortColumn] = useState(null);
+  console.log("Sorted column " + sortColumn);
 
-  const data = props.data.sort((a, b) => {
+  const data = props.currentItems.sort((a, b) => {
     if (!sortColumn) return 0;
-    if (a[sortColumn] < b[sortColumn]) return -1;
-    if (a[sortColumn] > b[sortColumn]) return 1;
+    if (a[sortColumn] < b[sortColumn]) return props.sortOrder === 'asc' ? -1 : 1;
+    if (a[sortColumn] > b[sortColumn]) return props.sortOrder === 'asc' ? 1 : -1;
     return 0;
   });
 
+  const toggleEllipsis = () => {
+    setEllipsis(!ellipsis);
+  };
+
   const allColumns = Object.keys(data[0]).map((column) => ({
-    label: column,
+    label: columnLabels[column] || column,
     value: column,
   }));
 
   const handleSelectedColumns = (selected) => {
     setSelectedColumns(selected.map((item) => item.value));
   };
+
+  const handleSortOrder = (column) => {
+    setSortColumn(column)
+    // props.setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    props.setSortOrder(props.sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const getColumnLabel = (column) => columnLabels[column] || column;
+
+  const paginate = (pageNumber) => {
+    props.setCurrentPageNumber(pageNumber, props.sortOrder);
+    setEllipsis(pageNumber > 3 && pageNumber < props.pageNumbers.length - 2);
+  };
+  console.log("Number of page is " + props.pageNumbers);
 
   return (
     <div>
@@ -36,7 +72,7 @@ export default function Table(props) {
           options={allColumns}
           isMulti
           value={selectedColumns.map((column) => ({
-            label: column,
+            label: getColumnLabel(column),
             value: column,
           }))}
           onChange={handleSelectedColumns}
@@ -51,40 +87,16 @@ export default function Table(props) {
                 {selectedColumns.map((column, index) => (
                   <th
                     key={index}
-                    onClick={() => setSortColumn(column)}
+                    onClick={() => handleSortOrder(column)}
                     style={{ cursor: "pointer", textAlign: "center" }}
                   >
-                    {column === "accrued_out_qty"
-                      ? "ยอดค้างส่ง"
-                      : column === "balance_qty_net"
-                      ? "ยอดคงเหลือ (สุทธิ)"
-                      : column === "barcode"
-                      ? "บาร์โค้ด"
-                      : column === "book_out_qty"
-                      ? "ยอดค้างจอง"
-                      : column === "code"
-                      ? "รหัส"
-                      : column === "discount"
-                      ? "รหัส"
-                      : column === "image"
-                      ? "รูป"
-                      : column === "name"
-                      ? "ชื่อสินค้า"
-                      : column === "price"
-                      ? "ราคา"
-                      : column === "properties"
-                      ? "รายละเอียด"
-                      : column === "total_price"
-                      ? "ราคาสุทธิ"
-                      : column === "unit_standard"
-                      ? "หน่วยนับยอดคงเหลือ"
-                      : column}
+                    {getColumnLabel(column)}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {data.map((item, index) => (
+              {props.currentItems.map((item, index) => (
                 <tr key={index}>
                   {selectedColumns.map((column, i) => (
                     <td
@@ -104,9 +116,49 @@ export default function Table(props) {
               ))}
             </tbody>
           </table>
+
+          <div className="container">
+            <Pagination
+              size="sm"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              {props.pageNumbers.map((number, index) => {
+                if (
+                  index === 0 ||
+                  index === props.pageNumbers.length - 1 ||
+                  (index >= props.currentPage - 2 &&
+                    index <= props.currentPage + 2) ||
+                  (index >= props.pageNumbers.length - 5 &&
+                    index <= props.pageNumbers.length - 2) ||
+                  (index === 1 && ellipsis) ||
+                  (index === props.pageNumbers.length - 2 && ellipsis)
+                ) {
+                  return (
+                    <Pagination.Item
+                      key={number}
+                      active={number === props.currentPage}
+                      onClick={() => paginate(number)}
+                    >
+                      {number}
+                    </Pagination.Item>
+                  );
+                } else if (
+                  (index === 2 && !ellipsis) ||
+                  (index === props.pageNumbers.length - 3 && ellipsis)
+                ) {
+                  return (
+                    <Pagination.Ellipsis
+                      key={number}
+                      onClick={toggleEllipsis}
+                    />
+                  );
+                }
+              })}
+            </Pagination>
+          </div>
         </div>
-        <hr />
       </div>
+      <hr />
     </div>
   );
 }

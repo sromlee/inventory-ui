@@ -38,7 +38,7 @@ function InventorySearchForm(props) {
 
     const delayDebounceFn = setTimeout(() => {
       console.log("Start to Searh " + searchTerm);
-      setLoading(true);
+    
       props.setError("");
       if (
         role === "user" ||
@@ -48,15 +48,18 @@ function InventorySearchForm(props) {
         setCustomer("store_price");
       }
 
-      if (customer != "")
+      if (customer != "") {
+        console.log(customer);
         // Send Axios request here
+        props.setCurrentPageNumber(1);
+        setLoading(true);
         axios
           .get(
             SEARCH_URL,
             {
               params: {
                 search_term: searchTerm,
-                limit: 15,
+                limit: 1000,
                 customer_name: customer,
               },
             },
@@ -91,10 +94,10 @@ function InventorySearchForm(props) {
               // Something happened in setting up the request that triggered an Error
               props.setError("Error: " + err.message);
             }
-
             props.setShow(false);
           })
           .finally(() => setLoading(false));
+      }
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm, customer]);
@@ -125,12 +128,12 @@ function InventorySearchForm(props) {
             </Form.Group>
             {loading && (
               <div>
-                <div class="d-flex align-items-center">
+                <div className="d-flex align-items-center">
                   <strong>Loading... </strong>
                   <div
-                    class="spinner-border spinner-custom"
+                    className="spinner-border spinner-custom"
                     role="status"
-                    size='sm' 
+                    size="sm"
                     aria-hidden="true"
                   ></div>
                 </div>
