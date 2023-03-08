@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "../../../api/axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef} from "react";
 import AuthService from "../../AuthService";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -17,6 +17,8 @@ function InventorySearchForm(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
   const [loading, setLoading] = useState(false);
+  const abortControllerRef = useRef(null);
+
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -35,9 +37,15 @@ function InventorySearchForm(props) {
       return;
     }
 
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     const delayDebounceFn = setTimeout(() => {
       console.log("Start to Searh " + searchTerm);
-    
+
       props.setError("");
       if (
         role === "user" ||
@@ -53,24 +61,20 @@ function InventorySearchForm(props) {
         props.setCurrentPageNumber(1);
         setLoading(true);
         axios
-          .get(
-            SEARCH_URL,
-            {
-              params: {
-                search_term: searchTerm,
-                limit: 1000,
-                customer_name: customer,
-              },
+          .get(SEARCH_URL, {
+            params: {
+              search_term: searchTerm,
+              limit: 1000,
+              customer_name: customer,
             },
-            {
-              header: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*",
-              },
-              withCredentials: true,
-            }
-          )
+            signal: abortController.signal,
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
+              "Access-Control-Allow-Headers": "*",
+            },
+            withCredentials: true,
+          })
           .then((res) => {
             props.setProductResult(res.data);
             if (res.data.products.length === 0) {
@@ -82,7 +86,9 @@ function InventorySearchForm(props) {
             }
           })
           .catch((err) => {
-            if (err.response) {
+            if (err.name === "AbortError") {
+              console.log("Request was aborted");
+            } else if (err.response) {
               // The request was made and the server responded with a status code
               // that falls out of the range of 2xx
               props.setError("Error: " + err.response.data.message);
