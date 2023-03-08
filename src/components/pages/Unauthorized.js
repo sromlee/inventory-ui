@@ -18,11 +18,11 @@ const Unauthorized = () => {
           <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
             {user ? (
               <div className="m-4 m-lg-5">
-                <h1>ไม่สามารถเข้าดูเมนูนี้ได้</h1>
+                <h1>session expired</h1>
                 <div className="flexGrow">
-                  <button className="btn btn-danger btn-md" onClick={goBack}>
+                  <button className="btn btn-danger btn-md" onClick={routeToLogin}>
                     {" "}
-                    กลับสู่หน้าเมนูก่อนหน้า{" "}
+                    กรุณาเข้าสู่ระบบเพื่อใช้งาน {" "}
                   </button>
                 </div>
               </div>
