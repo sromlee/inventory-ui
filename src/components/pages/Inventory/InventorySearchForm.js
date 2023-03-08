@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import AuthService from "../../AuthService";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import { Spinner } from "react-bootstrap";
 
 function InventorySearchForm(props) {
   const SEARCH_URL = "/api/v1/search";
@@ -105,7 +104,7 @@ function InventorySearchForm(props) {
   return (
     <div>
       <Form
-        className="rounded p-4 p-sm-3"
+        className="col-sm-5 col-md-6"
         aria-expanded="false"
         onSubmit={submitHandler}
       >

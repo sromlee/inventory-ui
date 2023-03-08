@@ -27,7 +27,8 @@ export default function Table(props) {
     "price",
   ]);
   const [ellipsis, setEllipsis] = useState(false);
-  const [sortColumn, setSortColumn] = useState(null);
+  const [sortColumn, setSortColumn] = useState(null);  
+  const [selectionColumnVisible, setSelectionColumnVisible] = useState(false);
   console.log("Sorted column " + sortColumn);
 
   const data = props.currentItems.sort((a, b) => {
@@ -64,10 +65,18 @@ export default function Table(props) {
   };
   console.log("Number of page is " + props.pageNumbers);
 
+  const toggleSelectionColumn = () => {
+    setSelectionColumnVisible(!selectionColumnVisible);
+  };
+
+
   return (
     <div>
-      <div className="mb-3">
-        <Select
+      <div className="col-sm-5 col-md-6">
+        <br />
+      <button  type="button" class="btn btn-secondary btn-sm" onClick={toggleSelectionColumn}>เลือก field </button>
+        {selectionColumnVisible && (
+          <Select
           lassName="small-select"
           options={allColumns}
           isMulti
@@ -76,7 +85,8 @@ export default function Table(props) {
             value: column,
           }))}
           onChange={handleSelectedColumns}
-        />
+        />)}
+       
       </div>
       <div>
         <hr />

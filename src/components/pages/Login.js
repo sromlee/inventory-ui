@@ -47,7 +47,8 @@ const Login = () => {
       setAuth(true);
 
       if (response.data.access_token) {
-        // console.log("Local storeage " + response.data.access_token);
+        console.log("Local storeage " + response.data.access_token);
+        console.log(response.data)
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 
