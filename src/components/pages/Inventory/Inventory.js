@@ -4,11 +4,43 @@ import InventorySearchForm from "./InventorySearchForm";
 import { useState } from "react";
 // import AuthService from "../../AuthService";
 
+const ITEMS_PER_PAGE = 10; // Number of items to display per page
+
 function Inventory() {
   const [errors, setError] = useState([]);
-  const [show, setShow]=useState(false)
+  const [show, setShow] = useState(false);
   const [productResult, setProductResult] = useState([]);
+  const [newSearch, setNewSearch] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const [sortOrder, setSortOrder] = useState("asc")
+  const pageNumbers = [];
+  let currentItems = [];
 
+  if (productResult.products) {
+     currentItems = productResult.products.slice(
+      indexOfFirstItem,
+      indexOfLastItem
+    );
+
+ 
+    console.log("Page: " + currentPage);
+
+    for (
+      let i = 1;
+      i <= Math.ceil(productResult.products.length / ITEMS_PER_PAGE);
+      i++
+    ) {
+      pageNumbers.push(i);
+    }
+  }
+  const  setCurrentPageNumber = (pageNumber, sortOrder) => {
+    setCurrentPage(pageNumber);
+    setSortOrder(sortOrder);
+  };
+
+  console.log(errors);
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -23,25 +55,30 @@ function Inventory() {
                   setProductResult={setProductResult}
                   setError={setError}
                   setShow={setShow}
+                  setCurrentPageNumber={setCurrentPageNumber}
                 />
-                {errors.length >= 1 ? (
+                {errors ? (
                   <div className="small" role="alert">
-                    {errors.map((item, i) => (
-                      <div
-                        className="text-danger"
-                        variant="danger"
-                        size="sm"
-                        key={i}
-                      >
-                        {" "}
-                        {item}{" "}
-                      </div>
-                    ))}
+                    <div className="text-danger" variant="danger" size="sm">
+                      {" "}
+                      {errors}{" "}
+                    </div>
                   </div>
                 ) : (
                   <></>
                 )}
-                {show ? <Table data={productResult.products} /> : <div></div>}
+                {show ? (
+                  <Table
+                    data={productResult.products}
+                    setCurrentPageNumber={setCurrentPageNumber}
+                    currentItems={currentItems}
+                    pageNumbers={pageNumbers}
+                    sortOrder={sortOrder}
+                    setSortOrder={setSortOrder}
+                  />
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
           </div>
