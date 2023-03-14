@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import Pagination from "react-bootstrap/Pagination";
+import ImageModal from "./ImageModal";
+import { Button } from "react-bootstrap";
 import "./table.css";
 
 const columnLabels = {
@@ -16,6 +18,7 @@ const columnLabels = {
   properties: "รายละเอียด",
   total_price: "ราคาสุทธิ",
   unit_standard: "หน่วยนับยอดคงเหลือ",
+  images: "รูป",
 };
 
 export default function Table(props) {
@@ -27,14 +30,21 @@ export default function Table(props) {
     "price",
   ]);
   const [ellipsis, setEllipsis] = useState(false);
-  const [sortColumn, setSortColumn] = useState(null);  
+  const [sortColumn, setSortColumn] = useState(null);
   const [selectionColumnVisible, setSelectionColumnVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalStates, setModalStates] = useState(
+    props.currentItems.map(() => false)
+  );
+
   console.log("Sorted column " + sortColumn);
 
   const data = props.currentItems.sort((a, b) => {
     if (!sortColumn) return 0;
-    if (a[sortColumn] < b[sortColumn]) return props.sortOrder === 'asc' ? -1 : 1;
-    if (a[sortColumn] > b[sortColumn]) return props.sortOrder === 'asc' ? 1 : -1;
+    if (a[sortColumn] < b[sortColumn])
+      return props.sortOrder === "asc" ? -1 : 1;
+    if (a[sortColumn] > b[sortColumn])
+      return props.sortOrder === "asc" ? 1 : -1;
     return 0;
   });
 
@@ -52,9 +62,9 @@ export default function Table(props) {
   };
 
   const handleSortOrder = (column) => {
-    setSortColumn(column)
+    setSortColumn(column);
     // props.setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    props.setSortOrder(props.sortOrder === 'asc' ? 'desc' : 'asc');
+    props.setSortOrder(props.sortOrder === "asc" ? "desc" : "asc");
   };
 
   const getColumnLabel = (column) => columnLabels[column] || column;
@@ -63,30 +73,34 @@ export default function Table(props) {
     props.setCurrentPageNumber(pageNumber, props.sortOrder);
     setEllipsis(pageNumber > 3 && pageNumber < props.pageNumbers.length - 2);
   };
-  console.log("Number of page is " + props.pageNumbers);
 
   const toggleSelectionColumn = () => {
     setSelectionColumnVisible(!selectionColumnVisible);
   };
 
-
   return (
     <div>
       <div className="col-sm-5 col-md-6">
         <br />
-      <button  type="button" class="btn btn-secondary btn-sm" onClick={toggleSelectionColumn}>เลือก field </button>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          onClick={toggleSelectionColumn}
+        >
+          เลือก field{" "}
+        </button>
         {selectionColumnVisible && (
           <Select
-          lassName="small-select"
-          options={allColumns}
-          isMulti
-          value={selectedColumns.map((column) => ({
-            label: getColumnLabel(column),
-            value: column,
-          }))}
-          onChange={handleSelectedColumns}
-        />)}
-       
+            lassName="small-select"
+            options={allColumns}
+            isMulti
+            value={selectedColumns.map((column) => ({
+              label: getColumnLabel(column),
+              value: column,
+            }))}
+            onChange={handleSelectedColumns}
+          />
+        )}
       </div>
       <div>
         <hr />
@@ -115,8 +129,40 @@ export default function Table(props) {
                         color: item["item_type"] === 3 ? "blue" : "black",
                       }}
                     >
-                      {column === "รูป" ? (
-                        <img src={item[column]} alt="product image" />
+                      {" "}
+                      {column === "name" ? (
+                        <div>
+                          <a
+                            style={{
+                              color: "blue",
+                              textDecorationLine: "underline",
+                            }}
+                            onClick={() => {
+                              const newModalStates = [...modalStates];
+                              newModalStates[index] = true;
+                              setModalStates(newModalStates);
+                            }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {item[column]}
+                          </a>
+                          {modalStates[index] && (
+                            <ImageModal
+                              isModalOpen={modalStates[index]}
+                              setIsModalOpen={(value) => {
+                                const newModalStates = [...modalStates];
+                                newModalStates[index] = value;
+                                setModalStates(newModalStates);
+                              }}
+                              imageUri={
+                                "http://27.254.66.181:8080/SMLJavaRESTService/v3/api/product/image/v2/" +
+                                item["images"] +
+                                "?p=DATA&d=data1"
+                              }
+                            />
+                          )}
+                        </div>
                       ) : (
                         item[column]
                       )}

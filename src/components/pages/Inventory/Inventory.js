@@ -45,9 +45,7 @@ function Inventory() {
   return (
     <div className="d-flex flex-column min-vh-100">
       <div className="container px-lg-5 ">
-        <div className="card mt-4">
           <div className="card-body">
-            <h1> ตรวจสอบสินค้า </h1>
             <hr />
             <div className="card justify-content-md-center">
               <div className="card-body">
@@ -84,7 +82,6 @@ function Inventory() {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 
