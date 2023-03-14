@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "../../../api/axios";
-import { useState, useEffect , useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import AuthService from "../../AuthService";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -13,12 +13,13 @@ function InventorySearchForm(props) {
     AuthService.getCurrentUser().access_token
   );
 
+  console.log("Role: " + role);
+
   const [customer, setCustomer] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownTitle, setDropdownTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const abortControllerRef = useRef(null);
-
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -33,7 +34,7 @@ function InventorySearchForm(props) {
   useEffect(() => {
     props.setError("");
     console.log("SearchTerm: " + searchTerm);
-    if (searchTerm.length < 3) {
+    if (searchTerm.length <=3) {
       return;
     }
 
@@ -64,7 +65,7 @@ function InventorySearchForm(props) {
           .get(SEARCH_URL, {
             params: {
               search_term: searchTerm,
-              limit: 1000,
+              limit: 20,
               customer_name: customer,
             },
             signal: abortController.signal,
@@ -110,7 +111,7 @@ function InventorySearchForm(props) {
   return (
     <div>
       <Form
-        className="col-sm-5 col-md-6"
+        className=""
         aria-expanded="false"
         onSubmit={submitHandler}
       >
@@ -148,7 +149,9 @@ function InventorySearchForm(props) {
         </Row>
 
         <Row>
-          {role === "admin" && (
+          {(role === "admin" ||
+            role === "sale_admin_shopping_mall" ||
+            role === "sale_shopping_mall") && (
             <Col>
               <Form.Group required>
                 <DropdownButton
@@ -161,6 +164,7 @@ function InventorySearchForm(props) {
                 >
                   <Dropdown.Item eventKey="B2S">B2S</Dropdown.Item>
                   <Dropdown.Item eventKey="OFM">OFM</Dropdown.Item>
+                  <Dropdown.Item eventKey="Lotus">Lotus</Dropdown.Item>
                   <Dropdown.Item eventKey="BigC">BigC</Dropdown.Item>
                   <Dropdown.Item eventKey="The Mall">The Mall</Dropdown.Item>
                   <Dropdown.Item eventKey="Amarin">Amarin</Dropdown.Item>
@@ -169,9 +173,11 @@ function InventorySearchForm(props) {
                     Asia Book, Watsons
                   </Dropdown.Item>
                   <Dropdown.Item eventKey="CJ">CJ</Dropdown.Item>
-                  <Dropdown.Item eventKey="store_price">
-                    Store Price
-                  </Dropdown.Item>
+                  {role === "admin" && (
+                    <Dropdown.Item eventKey="store_price">
+                      Store Price
+                    </Dropdown.Item>
+                  )}
                 </DropdownButton>
               </Form.Group>
             </Col>

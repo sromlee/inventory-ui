@@ -40,7 +40,7 @@ instance.interceptors.response.use(
   async (err) => {
     const originalConfig = err.config;
     if (!err.response) {
-      return Promise.reject(new Error("request aborted"));
+      return Promise.reject();
     }
 
     if (originalConfig.url !== "/api/v1/refresh" && err.response) {

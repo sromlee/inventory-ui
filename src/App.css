@@ -1,13 +1,13 @@
-
-
-.p{
+.p {
   font-size: 14px;
 }
+
+
 
 .small-select .react-select__control {
   height: 30px;
   width: 100px;
-  }
+}
 /*   
 .body { padding-top: 40px; 
   font-size: 1rem;
@@ -18,50 +18,77 @@
   margin-left: 0.5rem;
 }
 
-
+.icon {
+  height: 40px;
+  width: 40px;
+  margin: 10px;
+}
 @media (max-width: 576px) {
+  .icon {
+    height: 32px;
+    width: 32px;
+  }
   body {
     font-size: 0.9rem;
   }
 }
-.section{
-  padding-top: 40px;
-  padding-bottom: 40px;
+
+.icon {
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  margin: 10px;
 }
-.main-heading{
+
+.modal-backdrop {
+  opacity: 0.5;
+}
+.img {
+  margin-right: 10px;
+}
+.icon {
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
+  margin: 10px;
+}
+
+.modal-backdrop {
+  opacity: 0.5;
+}
+.main-heading {
   color: rgb(56, 51, 51);
   font: 100px;
 }
-.underline{
+.underline {
   height: 04px;
   width: 10rem;
   background-color: #0f2f60;
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.bg-c-light{
+.bg-c-light {
   background-color: #949090;
 }
 .footer {
-  position:absolute;
-  left:0;
-  bottom:0;
-  right:0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
-.footer a{
+.footer a {
   color: #fff;
   text-decoration: none !important;
 }
-.footer a:hover{
+.footer a:hover {
   color: grey;
   text-decoration: none !important;
 }
 
-.form{
+.form {
   background-color: #fff;
   box-shadow: 5px 5px 5px;
 }
-
 
 div.content {
   margin-left: 200px;
@@ -73,14 +100,13 @@ div.content {
   width: 50%;
 }
 .card {
-  background-color: #fafafa75!important;
+  background-color: #fafafa75 !important;
   margin-bottom: 10px;
 }
 .active {
   background: lightgray;
 }
 .btn.btn-success.active,
-
 .btn.btn-success:active {
   color: #fff;
   background-color: #5cb85c;
