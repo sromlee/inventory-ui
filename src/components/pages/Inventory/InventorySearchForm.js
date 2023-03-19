@@ -9,6 +9,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 function InventorySearchForm(props) {
   const SEARCH_URL = "/api/v1/search";
+  const SEARCH_CUSTOMER = "/api/v1/search/customer_names";
   const role = AuthService.getCurrentRole(
     AuthService.getCurrentUser().access_token
   );
@@ -17,24 +18,44 @@ function InventorySearchForm(props) {
 
   const [customer, setCustomer] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [dropdownTitle, setDropdownTitle] = useState("");
+  const [dropdownTitle, setDropdownTitle] = useState("เลือกลูกค้า");
   const [loading, setLoading] = useState(false);
   const abortControllerRef = useRef(null);
+  const [data, setData] = useState([]);
 
   const submitHandler = (e) => {
     e.preventDefault();
   };
 
   const handleSelect = (e) => {
-    console.log(e);
     setCustomer(e);
     setDropdownTitle(e);
   };
 
   useEffect(() => {
+    axios
+      .get(SEARCH_CUSTOMER, {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*",
+        },
+        withCredentials: true,
+      })
+      .then((response) => {
+        const data = response.data.customer_names;
+        if (role === "admin") {
+          data.push("store_price");
+        }
+        setData(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
     props.setError("");
     console.log("SearchTerm: " + searchTerm);
-    if (searchTerm.length <=3) {
+    if (searchTerm.length <= 3) {
       return;
     }
 
@@ -65,7 +86,7 @@ function InventorySearchForm(props) {
           .get(SEARCH_URL, {
             params: {
               search_term: searchTerm,
-              limit: 20,
+              limit: 10,
               customer_name: customer,
             },
             signal: abortController.signal,
@@ -110,11 +131,7 @@ function InventorySearchForm(props) {
 
   return (
     <div>
-      <Form
-        className=""
-        aria-expanded="false"
-        onSubmit={submitHandler}
-      >
+      <Form className="" aria-expanded="false" onSubmit={submitHandler}>
         <Row>
           <Col>
             <Form.Group
@@ -147,7 +164,6 @@ function InventorySearchForm(props) {
             )}
           </Col>
         </Row>
-
         <Row>
           {(role === "admin" ||
             role === "sale_admin_shopping_mall" ||
@@ -155,29 +171,17 @@ function InventorySearchForm(props) {
             <Col>
               <Form.Group required>
                 <DropdownButton
-                  alignRight
-                  title={dropdownTitle ? dropdownTitle : "กลุ่มลูกค้า"}
-                  id="dropdown-menu-align-right"
+                  id="dropdown-basic-button"
+                  title={dropdownTitle}
                   size="sm"
                   onSelect={handleSelect}
                   required
                 >
-                  <Dropdown.Item eventKey="B2S">B2S</Dropdown.Item>
-                  <Dropdown.Item eventKey="OFM">OFM</Dropdown.Item>
-                  <Dropdown.Item eventKey="Lotus">Lotus</Dropdown.Item>
-                  <Dropdown.Item eventKey="BigC">BigC</Dropdown.Item>
-                  <Dropdown.Item eventKey="The Mall">The Mall</Dropdown.Item>
-                  <Dropdown.Item eventKey="Amarin">Amarin</Dropdown.Item>
-                  <Dropdown.Item eventKey="Se-ed">Se-ed</Dropdown.Item>
-                  <Dropdown.Item eventKey="Asia Book, Watsons">
-                    Asia Book, Watsons
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="CJ">CJ</Dropdown.Item>
-                  {role === "admin" && (
-                    <Dropdown.Item eventKey="store_price">
-                      Store Price
+                  {data.map((item, index) => (
+                    <Dropdown.Item key={item} eventKey={item}>
+                      {item}
                     </Dropdown.Item>
-                  )}
+                  ))}
                 </DropdownButton>
               </Form.Group>
             </Col>

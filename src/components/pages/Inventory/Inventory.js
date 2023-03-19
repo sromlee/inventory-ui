@@ -10,7 +10,6 @@ function Inventory() {
   const [errors, setError] = useState([]);
   const [show, setShow] = useState(false);
   const [productResult, setProductResult] = useState([]);
-  const [newSearch, setNewSearch] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
@@ -68,6 +67,7 @@ function Inventory() {
                 {show ? (
                   <Table
                     data={productResult.products}
+                    totalItem={productResult.total_items}
                     setCurrentPageNumber={setCurrentPageNumber}
                     currentItems={currentItems}
                     pageNumbers={pageNumbers}
