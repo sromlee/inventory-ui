@@ -32,12 +32,9 @@ export default function Table(props) {
   const [ellipsis, setEllipsis] = useState(false);
   const [sortColumn, setSortColumn] = useState(null);
   const [selectionColumnVisible, setSelectionColumnVisible] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalStates, setModalStates] = useState(
     props.currentItems.map(() => false)
   );
-
-  console.log("Sorted column " + sortColumn);
 
   const data = props.currentItems.sort((a, b) => {
     if (!sortColumn) return 0;
@@ -63,7 +60,6 @@ export default function Table(props) {
 
   const handleSortOrder = (column) => {
     setSortColumn(column);
-    // props.setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     props.setSortOrder(props.sortOrder === "asc" ? "desc" : "asc");
   };
 
@@ -104,6 +100,11 @@ export default function Table(props) {
       </div>
       <div>
         <hr />
+
+        <div>
+          {" "}
+          แสดงผล {props.data.length} รายการ จากทั้งหมด {props.totalItem}{" "}
+        </div>
         <div className="table table-striped table-responsive-sm">
           <table className="table table-striped">
             <thead className="thead-dark">
