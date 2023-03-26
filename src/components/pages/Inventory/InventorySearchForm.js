@@ -86,7 +86,7 @@ function InventorySearchForm(props) {
           .get(SEARCH_URL, {
             params: {
               search_term: searchTerm,
-              limit: 10,
+              limit: 30,
               customer_name: customer,
             },
             signal: abortController.signal,
@@ -139,7 +139,7 @@ function InventorySearchForm(props) {
               controlId="productId"
               onSubmit={submitHandler}
             >
-              <p> ค้นหา </p>
+              <p> ค้นหา (กรุณาพิมพ์อย่างน้อย 4 ตัวอักษร) </p>
               <Form.Control
                 type="text"
                 value={searchTerm}

@@ -59,7 +59,7 @@ const App = () => {
         <footer className="mt-auto py-5 bg-dark">
           <div className="container">
             <p className="m-0 text-center text-white">
-              Copyright &copy; www.something.com 2022
+              Copyright &copy; Dilok 2022
             </p>
           </div>
         </footer>

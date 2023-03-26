@@ -23,11 +23,13 @@ const columnLabels = {
 
 export default function Table(props) {
   const [selectedColumns, setSelectedColumns] = useState([
-    "name",
     "code",
     "barcode",
+    "name",
     "balance_qty_net",
     "price",
+    "discount",
+    "total_price"
   ]);
   const [ellipsis, setEllipsis] = useState(false);
   const [sortColumn, setSortColumn] = useState(null);
