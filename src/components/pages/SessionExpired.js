@@ -2,30 +2,27 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import AuthService from "../AuthService";
 
-const Unauthorized = () => {
+const SessionExpired = () => {
   const navigate = useNavigate();
   const goBack = () => navigate(-1);
   let user = AuthService.getCurrentUser();
-  console.log("user")
-  console.log(user)
   const routeToLogin = () =>{ 
     let path = `/login`; 
     navigate(path);
-    localStorage.removeItem("user");
   }
-  
+
   return (
     <div className="d-flex flex-column min-vh-100">
       <header className=" bg-dark p-2 text-dark bg-opacity-25 py-5">
         <div className="container px-lg-5">
           <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
-          {user ? (
+            {user ? (
               <div className="m-4 m-lg-5">
-                <h1></h1>
+                <h1>session expired</h1>
                 <div className="flexGrow">
-                  <button className="btn btn-danger btn-md" onClick={goBack}>
+                  <button className="btn btn-danger btn-md" onClick={routeToLogin}>
                     {" "}
-                    ไม่สามารถเข้าดูเมนูนี้ได้ {" "}
+                    กรุณาเข้าสู่ระบบเพื่อใช้งาน {" "}
                   </button>
                 </div>
               </div>
@@ -48,4 +45,4 @@ const Unauthorized = () => {
   );
 };
 
-export default Unauthorized;
+export default SessionExpired;

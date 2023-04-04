@@ -35,7 +35,7 @@ const Protected = () => {
   console.log("Is auth: " + is_ath)
 
   if (!is_ath) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/session_expired" replace />;
   }
   return <Outlet />;
 };

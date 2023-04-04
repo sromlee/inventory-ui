@@ -13,6 +13,7 @@ import Register from "./components/pages/Register";
 import ProtectedAdmin from "./components/ProtectedAdmin";
 import Unauthorized from "./components/pages/Unauthorized";
 import { GlobalStyles } from "./components/Styled";
+import SessionExpired from "./components/pages/SessionExpired"
 
 const App = () => {
   const { user } = useAuth();
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
+          <Route path="/session_expired" element={<SessionExpired />} />
 
           {/* Protected Route */}
           <Route element={<Protected />}>

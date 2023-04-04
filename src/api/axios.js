@@ -77,7 +77,7 @@ instance.interceptors.response.use(
       
       localStorage.removeItem("user");
       console.log("Refresh token expired ..........  "+ originalConfig.url)
-      window.location.href = '/unauthorized';
+      window.location.href = '/session_expired';
 
       return Promise.reject(err);;
     }

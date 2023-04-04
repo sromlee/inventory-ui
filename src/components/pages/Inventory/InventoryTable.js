@@ -12,13 +12,12 @@ const columnLabels = {
   book_out_qty: "ยอดค้างจอง",
   code: "รหัส",
   discount: "ส่วนลด",
-  image: "รูป",
   name: "ชื่อสินค้า",
   price: "ราคา",
   properties: "รายละเอียด",
   total_price: "ราคาสุทธิ",
   unit_standard: "หน่วยนับยอดคงเหลือ",
-  images: "รูป",
+  item_type: "item_type"
 };
 
 export default function Table(props) {
@@ -29,7 +28,7 @@ export default function Table(props) {
     "balance_qty_net",
     "price",
     "discount",
-    "total_price"
+    "total_price",
   ]);
   const [ellipsis, setEllipsis] = useState(false);
   const [sortColumn, setSortColumn] = useState(null);
@@ -52,8 +51,10 @@ export default function Table(props) {
   };
 
   const allColumns = Object.keys(data[0]).map((column) => ({
-    label: columnLabels[column] || column,
+    
+    label: columnLabels[column],
     value: column,
+    
   }));
 
   const handleSelectedColumns = (selected) => {

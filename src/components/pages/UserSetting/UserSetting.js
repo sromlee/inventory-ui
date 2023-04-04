@@ -13,7 +13,7 @@ function Usersetting() {
             <hr/>
             <UserSearchForm/>
             <hr/>
-            <UserSettingTable/>
+           
             <hr/>
           </div>
         </div>
