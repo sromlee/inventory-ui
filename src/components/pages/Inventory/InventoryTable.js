@@ -17,7 +17,8 @@ const columnLabels = {
   properties: "รายละเอียด",
   total_price: "ราคาสุทธิ",
   unit_standard: "หน่วยนับยอดคงเหลือ",
-  item_type: "item_type"
+  item_type: "item_type",
+  stand_value: "ชิ้น/ลัง"
 };
 
 export default function Table(props) {
@@ -26,6 +27,7 @@ export default function Table(props) {
     "barcode",
     "name",
     "balance_qty_net",
+    "stand_value",
     "price",
     "discount",
     "total_price",
