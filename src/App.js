@@ -1,7 +1,6 @@
 import "./App.css";
 import Home from "./components/pages/Home";
 import Inventory from "./components/pages/Inventory/Inventory";
-import UserSetting from "./components/pages/UserSetting/UserSetting";
 import Login from "./components/pages/Login";
 import { Route, Routes } from "react-router-dom";
 import Navigation from "./components/inc/Navbar";
@@ -48,10 +47,6 @@ const App = () => {
           <Route element={<Protected />}>
             <Route path="/" element={<Home />} />
             <Route path="/inventory" element={<Inventory />} />
-
-            <Route element={<ProtectedAdmin />}>
-              <Route path="/userSetting" element={<UserSetting />} />
-            </Route>
           </Route>
 
           {/* 404 NOT FOUND */}

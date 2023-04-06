@@ -116,12 +116,7 @@ const Login = () => {
                 >
                   {errMsg}
                 </div>
-
                 <hr />
-
-                <span className="line">
-                  <Link to="/"> Sign Up</Link>
-                </span>
               </Form>
             </div>
           </div>

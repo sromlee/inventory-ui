@@ -16,11 +16,6 @@ function Navbar() {
                         ตรวจสอบสินค้า
                       </Link>
                     </li>
-                    <li className="nav-item ">
-                      <Link className="nav-link" to="/UserSetting">
-                        จัดการผู้ใช้งาน
-                      </Link>
-                    </li>
                   </ul>
 </div>
   );

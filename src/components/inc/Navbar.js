@@ -39,13 +39,7 @@ function Navigation() {
                       ตรวจสอบสินค้า
                     </Nav.Link>
                     <div>
-                      <Nav.Link
-                        className="nav-item nav-link px-3"
-                        href="/usersetting"
-                      >
-                        {" "}
-                        User Setting
-                      </Nav.Link>
+                     
                       {user ? (
                         <Button
                           className="ml- auto"

@@ -37,15 +37,7 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="col-sm-6">
-            <div className="card text-center">
-              <div className="card-body">
-                <a href="/usersetting" className="btn btn-outline-dark">
-                  จัดการผู้ใช้
-                </a>
-              </div>
-            </div>
-          </div>
+         
         </div>
       </Container>
     </div>

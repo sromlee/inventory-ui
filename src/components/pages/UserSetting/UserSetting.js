@@ -1,5 +1,4 @@
 import React from "react";
-import UserSettingTable from "./UserSettingTable";
 import UserSearchForm from "./UserSearchForm";
 
 function Usersetting() {

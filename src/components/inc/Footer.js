@@ -22,10 +22,6 @@ function Footer() {
               {" "}
               <Link to="/inventory"> ตรวจสอบสินค้า</Link>
             </div>
-            <div>
-              {" "}
-              <Link to="/userSetting"> User Setting</Link>
-            </div>
           </div>
         </div>
       </div>
